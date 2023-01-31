@@ -1,5 +1,0 @@
-applicationContext.xml
-presentation-layer.xml
-web.xml
-
---> root-context.xml, servlet-context.xml, web.xml로 수정

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MovieBoardDAO">
+
+	<resultMap type="board" id="boardResult">
+		<id property="bseq" column="BSEQ"/>
+		<result property="boardnum" column="BOARDNUM"/>
+		<result property="title" column="TITLE"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="content" column="CONTENT"/>
+		<result property="filename" column="FILENAME"/>
+		<result property="like_num" column="LIKE_NUM"/>
+		<result property="unlike_num" column="UNLIKE_NUM"/>
+		<result property="cnt" column="CNT"/>
+		<result property="userId" column="USERID"/>
+		
+	</resultMap>
+
+	<insert id="insertBoard">
+		<![CDATA[INSERT INTO  "reviewboard"("bseq", "boardnum", "title", "nickname",  "content", "filename", "writedate", "like_num", "unlike_num", "cnt", "UserId")
+		VALUES ((select nvl(max(bseq), 0) + 1 from reviewboard), #{boardnum}, #{title},#{nickname}, #{content}, #{filename}
+		, #{like_num}, #{unlike_num}, #{cnt}, #{userId})]]>
+	</insert>
+	
+	<update id="updateBoard">
+		<![CDATA[
+			UPDATE "reviewboard" SET
+				"title" = #{title}, 
+				"content" = #{content} 
+			WHERE "bseq" = #{bseq}
+		]]>
+	</update>
+	
+	<delete id="deleteBoard">
+		<![CDATA[
+			DELETE FROM "reviewboard" 
+			WHERE "bseq" = #{bseq}
+		]]>
+	</delete>
+	
+	<select id="getBoard" resultType="board">
+		<![CDATA[
+			SELECT * 
+			FROM "reviewboard" 
+			WHERE "bseq" = #{bseq}
+		]]>
+	</select>
+	
+	<select id="getBoardList" resultMap="boardResult">
+		SELECT * 
+		FROM(
+			SELECT ROWNUM RN, "bseq", "boardnum", "title", "nickname",  "content", "filename", "writedate", "like_num", "unlike_num", "cnt", "UserId" 
+			FROM(
+				SELECT * 
+				FROM "reviewboard" 
+				WHERE "boardnum" = #{boardnum}
+		<if test="searchCondition == 'TITLE'">
+			AND "title" LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			AND "content" LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		ORDER BY "bseq" DESC
+		) 
+			<![CDATA[
+    		WHERE ROWNUM <= #{pageNum} * #{amount}
+    		]]>
+    	) 
+  		<![CDATA[
+  		WHERE RN > (#{pageNum} - 1) * #{amount}
+  		]]>
+  	
+	</select>
+	
+	<select id="getSearchReview" resultMap="boardResult">
+		SELECT * 
+		FROM(
+			SELECT ROWNUM RN, "bseq", "boardnum", "title", "nickname",  "content", "filename", "writedate", "like_num", "unlike_num", "cnt", "UserId"
+			FROM(
+				SELECT * 
+				FROM REVIEWBOARD 
+				WHERE 1=1
+				AND TITLE LIKE '%'||#{searchKeyword}||'%'
+		ORDER BY BSEQ DESC
+		) 
+			<![CDATA[
+    		WHERE ROWNUM <= #{pageNum} * #{amount}
+    		]]>
+    	) 
+  		<![CDATA[
+  		WHERE RN > (#{pageNum} - 1) * #{amount}
+  		]]>
+	</select>
+	
+	
+	
+	
+	
+		<select id="getBoardListMain" resultMap="boardResult">
+		SELECT * 
+		FROM "reviewboard"  
+		WHERE 1 = 1 
+		<if test="searchCondition == 'TITLE'">
+			AND "title" LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			AND "content" LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		ORDER BY "like_num" DESC
+	</select>
+	
+	
+	
+	
+	<select id="getTotalPages" resultType="int">
+		SELECT count(*) 
+		FROM "reviewboard" 
+		WHERE "boardnum"=#{boardnum} 
+		<if test="searchCondition == 'TITLE'">
+			AND "title" LIKE '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			AND "content" LIKE '%'||#{searchKeyword}||'%'
+		</if>
+  	</select>
+	
+	<select id="getBoardListWithPaging" resultMap="boardResult">
+		<![CDATA[
+		SELECT "bseq", "title", "nickname", "content","filename","like_num", "unlike_num", "cnt"
+		FROM (
+			SELECT "bseq", "title", "nickname", "content","filename","like_num", "unlike_num", "cnt"
+			FROM "reviewboard" 
+    		WHERE ROWNUM <= #{pageNum} * #{amount} 
+    		ORDER BY "bseq" DESC 
+    	) 
+  		WHERE RN > (#{pageNum} - 1) * #{amount}
+  		]]>
+  	</select>
+
+	<select id="getBoardListWithDynamicPaging" resultMap="boardResult">
+		SELECT "bseq", "title", "nickname", "content","filename","like_num", "unlike_num", "cnt"
+		FROM (
+			SELECT ROWNUM RN,"bseq", "title", "nickname", "content","filename","like_num", "unlike_num", "cnt"
+			FROM (
+				SELECT * 
+				FROM "reviewboard"  
+				WHERE "boardnum"=#{boardnum} 
+				<if test="searchCondition == 'TITLE'">
+					AND "title" LIKE '%'||#{searchKeyword}||'%'
+				</if>
+				<if test="searchCondition == 'CONTENT'">
+					AND "content" LIKE '%'||#{searchKeyword}||'%'
+				</if>
+				ORDER BY "bseq" DESC
+			) 
+			<![CDATA[
+    		WHERE ROWNUM <= #{pageNum} * #{amount}
+    		]]>
+    	) 
+  		<![CDATA[
+  		WHERE RN > (#{pageNum} - 1) * #{amount}
+  		]]>
+  	</select>
+	
+</mapper>

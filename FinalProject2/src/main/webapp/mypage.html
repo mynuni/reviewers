@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<style>
+      * {
+      margin: 0;
+      padding: 0;
+}
+
+a {
+      text-decoration: none;
+      color: black;
+}
+
+li {
+      list-style: none;
+}
+
+.title {
+      padding: 0;
+      margin: 0;
+      display: block;
+      color: coral;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 20px;
+}
+
+.menu{
+      display: inline-block;
+      border: 1px solid lightgrey;
+      width: 180px;
+      margin-bottom: 200px;
+      background-color: white;
+}
+
+.menu li{
+      border-bottom: 1px solid lightgrey;
+      padding: 12px;
+}
+
+.menu li i{
+      padding-right: 8px;
+}
+
+
+.menu li a{
+      padding-left: 10px;
+      color: rgba(0, 0, 0, 0.7);
+}
+
+.basic-info {
+      border-left: 5px solid coral;
+}
+
+.user-info{
+      border: 1px solid lightgrey;
+      display: block;
+      width: 180px;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      background-color: white;
+}
+
+.user-info-inner {
+      padding: 18px;
+      text-align: center;
+}
+
+.user-info-inner i{
+      font-size: 80px;
+      color: rgba(0, 0, 0, 0.5);
+      margin-bottom: 10px;
+}
+
+.container{
+      margin: 100px;
+      display: inline-block;
+      padding: 50px;
+      padding-top: 20px;
+      border: 1px solid lightgrey;
+      background-color: rgb(251, 247, 242);
+      border-radius: 15px;
+      width: 1200px;
+}
+
+.user-info-inner i{
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 80px;
+}
+</style>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://kit.fontawesome.com/8e012a278c.js" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="mypage.css">
+      <title>Document</title>
+</head>
+<body>
+      <main>
+            <div class="container">
+                  <p class="title">마이페이지</p>
+            <div class="user-info">
+                  <div class="user-info-inner">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <p>${name} 님</p>
+                        <p>${id}</p>
+                  </div>
+            </div>
+            <ul class="menu">
+                  <li class="basic-info"><a href="#" style="font-weight: 600; color: coral;"><i class="fa-solid fa-user"></i><span> 기본 정보</span></a></li>
+                  <li><a href="#"><i class="fa-solid fa-user-gear"></i><span>계정 관리</span></a></li>
+                  <li><a href="#"><i class="fa-solid fa-heart"></i><span> 관심 컨텐츠</span></a></li>
+                  <li><a href="#"><i class="fa-solid fa-star"></i><span> 평가한 컨텐츠</span></a></li>
+                  <li><a href="#"><i class="fa-regular fa-pen-to-square"></i><span> 내가 쓴 게시글</span></a></li>
+                  <li><a href="#"><i class="fa-regular fa-circle-question"></i><span> 고객센터</span></a></li>
+                  <li style="border-bottom: none;"><a href="#"><i class="fa-solid fa-arrow-right-from-bracket" ></i> 로그아웃</a></li>
+            </ul>
+      </div>
+</main>
+</body>
+</html>

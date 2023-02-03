@@ -4,10 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="qnaBoardMapper">
 
-	<select id="list" resultType="QnaBoardVO">
-		SELECT b_no, title, writer, reg_date, is_answered
-		FROM qna_board
+	<select id="list" resultType="QnaBoardVO" parameterType="Criteria">
+		SELECT b_no, title, content, writer, is_answered, reg_date
+		FROM (SELECT b_no, title, content, writer, is_answered, reg_date, row_number() OVER(ORDER BY b_no DESC) AS rNum
+		      FROM qna_board) qna
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY b_no DESC
+	</select>
+	
+	<select id="listCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(b_no)
+		FROM qna_board
+		WHERE b_no > 0
+	]]>
 	</select>
 	
 	<select id="read" parameterType="int" resultType="QnaBoardVO">

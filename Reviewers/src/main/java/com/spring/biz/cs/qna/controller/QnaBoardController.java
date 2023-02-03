@@ -13,6 +13,8 @@ import com.spring.biz.cs.qna.domain.CommentVO;
 import com.spring.biz.cs.qna.domain.QnaBoardVO;
 import com.spring.biz.cs.qna.service.CommentService;
 import com.spring.biz.cs.qna.service.QnaBoardService;
+import com.spring.biz.util.Criteria;
+import com.spring.biz.util.PageMaker;
 
 @Controller
 @RequestMapping("cs/qna")
@@ -25,8 +27,15 @@ public class QnaBoardController {
 	CommentService commentService;
 
 	@GetMapping
-	public String list(Model model) throws Exception {
-		model.addAttribute("list", qnaBoardService.list());
+	public String list(Criteria cri, Model model) throws Exception {
+		model.addAttribute("list", qnaBoardService.list(cri));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(qnaBoardService.listCount());
+
+		model.addAttribute("pageMaker", pageMaker);
+		
 		return "qna/list";
 	}
 

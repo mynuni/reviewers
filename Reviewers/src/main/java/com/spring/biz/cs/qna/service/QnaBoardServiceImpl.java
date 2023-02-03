@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.biz.cs.qna.dao.QnaBoardDAO;
 import com.spring.biz.cs.qna.domain.QnaBoardVO;
+import com.spring.biz.util.Criteria;
 
 @Service
 public class QnaBoardServiceImpl implements QnaBoardService {
@@ -15,14 +16,19 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	private QnaBoardDAO qnaBoardDAO;
 
 	@Override
-	public void write(QnaBoardVO qnaBoardVO) throws Exception {
-		qnaBoardDAO.write(qnaBoardVO);
-
+	public List<QnaBoardVO> list(Criteria cri) throws Exception {
+		return qnaBoardDAO.list(cri);
 	}
 
 	@Override
-	public List<QnaBoardVO> list() throws Exception {
-		return qnaBoardDAO.list();
+	public int listCount() throws Exception {
+		return qnaBoardDAO.listCount();
+	}
+
+	@Override
+	public void write(QnaBoardVO qnaBoardVO) throws Exception {
+		qnaBoardDAO.write(qnaBoardVO);
+
 	}
 
 	@Override

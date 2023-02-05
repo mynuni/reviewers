@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@GetMapping("/signup")
 	public String signup() throws Exception {
@@ -27,23 +31,30 @@ public class MemberController {
 
 	@PostMapping("/signup")
 	public void signup(MemberVO memberVO) throws Exception {
+		String password = memberVO.getUser_pw();
+		String bCryptPassword = passwordEncoder.encode(password);
+		memberVO.setUser_pw(bCryptPassword);
+
 		memberService.signUp(memberVO);
 	}
 
 	@PostMapping("/login")
-	public String login(MemberVO memberVO, HttpServletRequest request, RedirectAttributes rAttr) throws Exception {
-		HttpSession httpSession = request.getSession();
-		MemberVO login = memberService.login(memberVO);
+	public String login(MemberVO vo, HttpSession session, RedirectAttributes rAttr) throws Exception{
+	
+		session.getAttribute("member");
+		MemberVO login = memberService.login(vo);
+		System.out.println(login);
+		boolean pwdMatch = passwordEncoder.matches(vo.getUser_pw(), login.getUser_pw());
 
-		if (login == null) {
-			httpSession.setAttribute("member", null);
-			rAttr.addFlashAttribute("msg", false);
+		if(login != null && pwdMatch == true) {
+			session.setAttribute("member", login);
 		} else {
-			httpSession.setAttribute("member", login);
+			session.setAttribute("member", null);
+			rAttr.addFlashAttribute("msg", false);
 		}
-
+		
+		
 		return "redirect:/";
-
 	}
 
 	@GetMapping("/logout")

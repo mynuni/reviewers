@@ -12,7 +12,7 @@
 	<select id="login" resultType="MemberVO">
 		SELECT user_id, user_pw, user_name
 		FROM member
-		WHERE user_id = #{user_id} AND user_pw = #{user_pw}
+		WHERE user_id = #{user_id}
 	</select>
 	
 	<update id="memberUpdate">

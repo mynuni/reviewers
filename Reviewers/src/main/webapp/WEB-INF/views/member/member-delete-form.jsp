@@ -6,23 +6,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			// 취소
 			$(".cencle").on("click", function() {
-
 				location.href = "/";
-
 			})
 
 			$("#submit").on("click", function() {
@@ -35,13 +26,10 @@
 
 		})
 	</script>
-	<section id="container">
 		<form action="/member/delete" method="post">
-			<div class="form-group has-feedback">
 				<label class="control-label" for="user_id">아이디</label> <input
 					class="form-control" type="text" id="user_id" name="user_id"
 					value="${member.user_id}" readonly="readonly" />
-			</div>
 			<div class="form-group has-feedback">
 				<label class="control-label" for="user_pw">패스워드</label> <input
 					class="form-control" type="password" id="user_pw" name="user_pw" />
@@ -57,8 +45,7 @@
 			</div>
 		</form>
 		<div>
-			<c:if test="${msg == false}">비밀번호가 맞지 않습니다.</c:if>
+			<c:if test="${msg == false}">비밀번호가 올바르지 않습니다.</c:if>
 		</div>
-	</section>
 </body>
 </html>

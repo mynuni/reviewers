@@ -7,6 +7,7 @@
 	<typeAliases>
 		<typeAlias alias="QnaBoardVO" type="com.spring.biz.cs.qna.vo.QnaBoardVO" />
 		<typeAlias alias="CommentVO" type="com.spring.biz.cs.qna.vo.CommentVO" />
+		<typeAlias alias="FaqBoardVO" type="com.spring.biz.cs.faq.vo.FaqBoardVO" />
 		<typeAlias alias="MemberVO" type="com.spring.biz.member.vo.MemberVO" />
 		<typeAlias alias="Criteria" type="com.spring.biz.util.Criteria"/>
 	</typeAliases>

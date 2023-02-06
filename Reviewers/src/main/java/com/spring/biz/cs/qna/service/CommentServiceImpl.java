@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.biz.cs.qna.dao.CommentDAO;
-import com.spring.biz.cs.qna.domain.CommentVO;
+import com.spring.biz.cs.qna.vo.CommentVO;
 
 @Service
 public class CommentServiceImpl implements CommentService {

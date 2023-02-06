@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.biz.cs.qna.domain.CommentVO;
-import com.spring.biz.cs.qna.domain.QnaBoardVO;
 import com.spring.biz.cs.qna.service.CommentService;
 import com.spring.biz.cs.qna.service.QnaBoardService;
+import com.spring.biz.cs.qna.vo.CommentVO;
+import com.spring.biz.cs.qna.vo.QnaBoardVO;
 import com.spring.biz.util.Criteria;
 import com.spring.biz.util.PageMaker;
 

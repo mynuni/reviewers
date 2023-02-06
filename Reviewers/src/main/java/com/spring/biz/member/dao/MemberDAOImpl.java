@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.biz.member.domain.MemberVO;
+import com.spring.biz.member.vo.MemberVO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {

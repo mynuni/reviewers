@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.biz.cs.qna.domain.CommentVO;
+import com.spring.biz.cs.qna.vo.CommentVO;
 
 @Repository
 public class CommentDAOImpl implements CommentDAO {

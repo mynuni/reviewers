@@ -2,7 +2,7 @@ package com.spring.biz.cs.qna.service;
 
 import java.util.List;
 
-import com.spring.biz.cs.qna.domain.QnaBoardVO;
+import com.spring.biz.cs.qna.vo.QnaBoardVO;
 import com.spring.biz.util.Criteria;
 
 public interface QnaBoardService {

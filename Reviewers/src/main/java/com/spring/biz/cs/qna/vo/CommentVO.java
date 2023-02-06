@@ -1,4 +1,4 @@
-package com.spring.biz.cs.qna.domain;
+package com.spring.biz.cs.qna.vo;
 
 import java.util.Date;
 

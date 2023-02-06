@@ -1,6 +1,6 @@
 package com.spring.biz.member.service;
 
-import com.spring.biz.member.domain.MemberVO;
+import com.spring.biz.member.vo.MemberVO;
 
 public interface MemberService {
 

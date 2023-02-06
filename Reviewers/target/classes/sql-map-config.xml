@@ -5,9 +5,9 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias alias="QnaBoardVO" type="com.spring.biz.cs.qna.domain.QnaBoardVO" />
-		<typeAlias alias="CommentVO" type="com.spring.biz.cs.qna.domain.CommentVO" />
-		<typeAlias alias="MemberVO" type="com.spring.biz.member.domain.MemberVO" />
+		<typeAlias alias="QnaBoardVO" type="com.spring.biz.cs.qna.vo.QnaBoardVO" />
+		<typeAlias alias="CommentVO" type="com.spring.biz.cs.qna.vo.CommentVO" />
+		<typeAlias alias="MemberVO" type="com.spring.biz.member.vo.MemberVO" />
 		<typeAlias alias="Criteria" type="com.spring.biz.util.Criteria"/>
 	</typeAliases>
 	

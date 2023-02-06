@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.biz.cs.qna.dao.QnaBoardDAO;
-import com.spring.biz.cs.qna.domain.QnaBoardVO;
+import com.spring.biz.cs.qna.vo.QnaBoardVO;
 import com.spring.biz.util.Criteria;
 
 @Service

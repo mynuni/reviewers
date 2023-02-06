@@ -1,6 +1,6 @@
 package com.spring.biz.member.dao;
 
-import com.spring.biz.member.domain.MemberVO;
+import com.spring.biz.member.vo.MemberVO;
 
 public interface MemberDAO {
 

@@ -1,4 +1,4 @@
-package com.spring.biz.member.domain;
+package com.spring.biz.member.vo;
 
 public class MemberVO {
 

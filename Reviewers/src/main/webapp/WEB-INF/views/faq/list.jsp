@@ -1,14 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="${path}/resources/cs/faq.css" />
-<link rel="stylesheet" href="https://kit.fontawesome.com/8e012a278c.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://kit.fontawesome.com/8e012a278c.css"
+	crossorigin="anonymous">
 
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -259,7 +262,6 @@
 	color: #bbb;
 	margin-right: 5px;
 	margin-left: 7px;
-	/*살짝 내려가 있기 때문에 위로 올려주기 위해 transform 사용하기*/
 	display: inline-block;
 	transform: translateY(-1px);
 }
@@ -268,80 +270,6 @@
 	display: none;
 }
 
-border-radius
-
-
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
- 
-
-
-
-
-
-15
-px
-
-
-
-
-
-
-
-
-
-
-;
-background-color
-
-
-
-
-
-
-
-
-
-
-:
-
-
-
-
-
- 
-
-
-
-
-
-rgb
-
-
-
-
-
-
-
-
-
-
-(251
-,
-247,
-242);
 @media ( max-width :768px) {
 	.member {
 		width: 100%;
@@ -410,7 +338,6 @@ rgb
 
 img {
 	width: 100%;
-	/*         height: 100%; */
 	border-radius: 25px;
 }
 
@@ -441,8 +368,6 @@ select {
 	border: 1px solid #aaa;
 	border-radius: 0.5em;
 }
-
-
 </style>
 
 </head>
@@ -653,7 +578,6 @@ select {
 
 	</aside>
 	<!-- End Sidebar-->
-
 	<main id="main" class="main"> <!-- Modal -->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -691,28 +615,34 @@ select {
 		</div>
 	</div>
 	
-	<!-- 글 작성 폼 -->
-		<div class="faq-container">
-			<div class="faq-title-container">
-				<div class="faq-title d-none d-lg-block">리뷰어스 고객지원</div>
-				<div class="faq-title">자주 묻는 질문</div>
-				<div class="search-bar">
-					<form class="faq-search-form" action="#">
-						<select class="faq-select">
-							<option class="faq-option">전체</option>
-							<option class="faq-option">계정관련</option>
-							<option class="faq-option">서비스 이용</option>
-							<option class="faq-option">시스템 장애</option>
-							<option class="faq-option">신고/정지</option>
-							<option class="faq-option">운영정책</option>
-						</select>
-
-						<input class="faq-search-bar" placeholder="자주 묻는 질문 검색" type="search">
-						<button type="submit"><i class="bi bi-search"></i></button>
-					</form>
-				</div>
-				</div>
-				
+	<div class="faq-container">
+		<div class="faq-title-container">
+			<div class="faq-title d-none d-lg-block">리뷰어스 고객지원</div>
+			<div class="faq-title">자주 묻는 질문</div>
+			<div class="search-bar">
+				<form class="faq-search-form" action="#">
+					<select class="faq-select" name="searchType">
+						<option value="tc" class="faq-option"
+							<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>
+							selected>전체</option>
+						<option value="t" class="faq-option"
+							<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>제목</option>
+						<option value="c" class="faq-option"
+							<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>내용</option>
+					</select> <input class="faq-search-bar" placeholder="자주 묻는 질문 검색"
+						type="text" name="keyword" id="keywordInput"
+						value="${scri.keyword}">
+				</form>
+			</div>
+		</div>
+		<div class="faq-main-container">
+			<ul class="faq-main__sidebar">
+				<li>고객센터 홈</li>
+				<li class="faq-list-btn">자주 묻는 질문</li>
+				<li>1:1 문의게시판</li>
+				<li>회사 정보</li>
+			</ul>
+			<div class="faq-main__contents">
 				<div class="faq-menu-wrap">
 					<div class="faq-menu-top">
 						<div class="faq-menu-btn">전체</div>
@@ -723,35 +653,47 @@ select {
 						<div class="faq-menu-btn">시스템 장애</div>
 						<div class="faq-menu-btn">신고/정지</div>
 						<div class="faq-menu-btn">운영정책</div>
+					</div>
 				</div>
-				</div>
-			<dl>
-				<c:forEach var="list" items="${list}">
-					<dt class="accordion">
-						<span class="quetion-logo">Q</span>
-						<span class="preface">[계정]</span>
-						<span class="title"><c:out value="${list.title}" /></span>
-					</dt>
-					<dd class="panel">
-						<c:out value="${list.content}" />
-					</dd>
-				</c:forEach>
-			</dl>
-			<div class="page-container">
-				<ul>
-					<c:if test="${pageMaker.prev}">
-						<li><a title="이전 5 페이지" href="${pageMaker.makeQuery(pageMaker.startPage - 1)}"><i class="fa-solid fa-angle-left"></i></a></li>
-					</c:if>
-					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li><a href="${pageMaker.makeQuery(idx)}">${idx}</a></li>
+				<dl class="faq-board">
+					<c:forEach var="list" items="${list}">
+						<dt class="accordion">
+							<span class="quetion-logo">Q</span> <span class="preface">[계정]</span>
+							<span class="title"><c:out value="${list.title}" /></span>
+						</dt>
+						<dd class="panel">
+							<div class="faq-content-box">
+								<c:out value="${list.content}" />
+							</div>
+						</dd>
 					</c:forEach>
-					<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-						<li><a title="다음 5 페이지" href="${pageMaker.makeQuery(pageMaker.endPage + 1)}"><i class="fa-solid fa-angle-right"></i></a></li>
-					</c:if>
-				</ul>
+				</dl>
+				<div class="page-container">
+					<ul>
+						<c:if test="${pageMaker.prev}">
+							<li><a title="이전 5 페이지"
+								href="${pageMaker.makeSearch(pageMaker.startPage - 1)}"><i
+									class="fa-solid fa-angle-left"></i></a></li>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage}"
+							end="${pageMaker.endPage}" var="idx">
+							<li><a class="page-btn" href="${pageMaker.makeSearch(idx)}">${idx}</a></li>
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+							<li><a title="다음 5 페이지"
+								href="${pageMaker.makeSearch(pageMaker.endPage + 1)}"><i
+									class="fa-solid fa-angle-right"></i></a></li>
+						</c:if>
+					</ul>
+				</div>
 			</div>
 		</div>
-
+		<div class="faq-footer">
+			<div class="faq-title">찾으시는 내용이 없으신가요?</div>
+			<div class="faq-title">자세한 내용을 함께 보내주시면 신속히 답변드리겠습니다.</div>
+			<button class="qna-link-btn">1:1 문의하기</button>
+		</div>
+	</div>
 	<script>
 		var acc = document.getElementsByClassName("accordion");
 		var i;
@@ -766,10 +708,35 @@ select {
 				}
 			});
 		}
-	</script>
-	<!-- 글 작성 폼 끝 -->
-
-	</main>
+	</script> <script>
+		$(function() {
+			$('#faqSearchBtn').click(
+					function() {
+						self.location = "list" + '${pageMaker.makeQuery(1)}'
+								+ "&searchType="
+								+ $("select option:selected").val()
+								+ "&keyword="
+								+ encodeURIComponent($('#keywordInput').val());
+					});
+		});
+	</script> <!-- 글 작성 폼 끝 --> </main>
+	
+	<script>
+    $(function() {
+        if(location.href.indexOf('/cs/home') > -1){ 
+            $('.faq-home-btn').css({'background-color':'coral', 'color':'white'});
+        }
+        
+        if(location.href.indexOf('/cs/faq') > -1){ 
+            $('.faq-list-btn').css({'background-color':'coral', 'color':'white'});
+        }
+        
+        if(location.href.indexOf('/cs/qna') > -1){ 
+            $('.faq-oneonone-btn').css({'background-color':'coral', 'color':'white'});
+        }
+        
+    });
+   </script>
 	<!-- End #main -->
 
 
@@ -790,7 +757,7 @@ select {
 	<!-- ======= Footer ======= -->
 	<footer id="footer" class="footer">
 		<div class="copyright">
-			&copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights
+			&copy; Copyright <strong><span>Reviewers</span></strong>. All Rights
 			Reserved
 		</div>
 		<div class="credits">
@@ -798,7 +765,7 @@ select {
 			<!-- You can delete the links only if you purchased the pro version. -->
 			<!-- Licensing information: https://bootstrapmade.com/license/ -->
 			<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-			Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+			Designed by <a href="https://bootstrapmade.com/">Reviewers Team</a>
 		</div>
 	</footer>
 	<!-- End Footer -->
@@ -817,10 +784,8 @@ select {
 
 	<script
 		src="<c:url value="/resources/assets/vendor/quill/quill.min.js"/>"></script>
-
 	<script
 		src="<c:url value="/resources/assets/vendor/php-email-form/validate.js"/>"></script>
-
 	<script src="<c:url value="/resources/assets/js/main.js"/>"></script>
 	<script src="<c:url value="/resources/assets/js/autoComplete.js"/>"></script>
 

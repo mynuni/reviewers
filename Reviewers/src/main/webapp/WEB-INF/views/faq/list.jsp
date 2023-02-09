@@ -637,10 +637,10 @@ select {
 		</div>
 		<div class="faq-main-container">
 			<ul class="faq-main__sidebar">
-				<li>고객센터 홈</li>
-				<li class="faq-list-btn">자주 묻는 질문</li>
-				<li>1:1 문의게시판</li>
-				<li>회사 정보</li>
+				<li id="faq-list-home"><a>고객센터 홈</a></li>
+				<li id="faq-list-faq"><a>자주 묻는 질문</a></li>
+				<li id="faq-list-qna"><a>1:1 문의게시판</a></li>
+				<li id="faq-list-about"><a>회사 정보</a></li>
 			</ul>
 			<div class="faq-main__contents">
 				<div class="faq-menu-wrap">
@@ -721,22 +721,48 @@ select {
 		});
 	</script> <!-- 글 작성 폼 끝 --> </main>
 	
+	<!-- 사이드바 현재 탭 효과 -->
 	<script>
-    $(function() {
-        if(location.href.indexOf('/cs/home') > -1){ 
-            $('.faq-home-btn').css({'background-color':'coral', 'color':'white'});
-        }
-        
-        if(location.href.indexOf('/cs/faq') > -1){ 
-            $('.faq-list-btn').css({'background-color':'coral', 'color':'white'});
-        }
-        
-        if(location.href.indexOf('/cs/qna') > -1){ 
-            $('.faq-oneonone-btn').css({'background-color':'coral', 'color':'white'});
-        }
-        
-    });
+	    $(function() {
+	        if(location.href.indexOf('/cs/home') > -1){ 
+	            $('#faq-list-home').css({'background-color':'coral', 'color':'white'});
+	        }
+	        
+	        if(location.href.indexOf('/cs/faq') > -1){ 
+	            $('#faq-list-faq').css({'background-color':'coral', 'color':'white'});
+	        }
+	        
+	        if(location.href.indexOf('/cs/qna') > -1){ 
+	            $('#faq-oneonone-qna').css({'background-color':'coral', 'color':'white'});
+	        }
+	        
+	        if(location.href.indexOf('/cs/about') > -1){ 
+	            $('#faq-oneonone-about').css({'background-color':'coral', 'color':'white'});
+	        }
+	        
+	    });
    </script>
+   
+   <!-- 사이드바 링크 -->
+	<script>
+		$(function() {
+			$("#faq-list-home").click(function() {
+				$(location).attr("href", "home");
+			});
+			
+			$("#faq-list-faq").click(function() {
+				$(location).attr("href", "faq");
+			});
+			
+			$("#faq-list-qna").click(function() {
+				$(location).attr("href", "qna");
+			});
+			
+			$("#faq-list-about").click(function() {
+				$(location).attr("href", "about");
+			});
+		});
+	</script>
 	<!-- End #main -->
 
 

@@ -577,8 +577,7 @@ select {
 		</ul>
 
 	</aside>
-	<!-- End Sidebar-->
-	<main id="main" class="main"> <!-- Modal -->
+	<main id="main" class="main">
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
 		aria-hidden="true">
@@ -694,10 +693,12 @@ select {
 			<button class="qna-link-btn">1:1 문의하기</button>
 		</div>
 	</div>
+	</main>
+
+	<!-- 아코디언 효과 -->
 	<script>
 		var acc = document.getElementsByClassName("accordion");
-		var i;
-		for (i = 0; i < acc.length; i++) {
+		for (var i = 0; i < acc.length; i++) {
 			acc[i].addEventListener("click", function() {
 				this.classList.toggle("active");
 				var panel = this.nextElementSibling;
@@ -708,18 +709,21 @@ select {
 				}
 			});
 		}
-	</script> <script>
+	</script>
+	
+	<!-- 페이징  -->
+	<script>
 		$(function() {
-			$('#faqSearchBtn').click(
-					function() {
-						self.location = "list" + '${pageMaker.makeQuery(1)}'
-								+ "&searchType="
-								+ $("select option:selected").val()
-								+ "&keyword="
-								+ encodeURIComponent($('#keywordInput').val());
-					});
+			$('#faqSearchBtn').click(function() {
+				self.location = "list"
+				+ '${pageMaker.makeQuery(1)}'
+				+ "&searchType="
+				+ $("select option:selected").val()
+				+ "&keyword="
+				+ encodeURIComponent($('#keywordInput').val());
+			});
 		});
-	</script> <!-- 글 작성 폼 끝 --> </main>
+	</script>
 	
 	<!-- 사이드바 현재 탭 효과 -->
 	<script>
@@ -739,7 +743,6 @@ select {
 	        if(location.href.indexOf('/cs/about') > -1){ 
 	            $('#faq-oneonone-about').css({'background-color':'coral', 'color':'white'});
 	        }
-	        
 	    });
    </script>
    
@@ -763,61 +766,19 @@ select {
 			});
 		});
 	</script>
-	<!-- End #main -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<!-- ======= Footer ======= -->
 	<footer id="footer" class="footer">
 		<div class="copyright">
-			&copy; Copyright <strong><span>Reviewers</span></strong>. All Rights
-			Reserved
+			&copy; Copyright <strong><span>Reviewers</span></strong>. All Rights Reserved
 		</div>
-		<div class="credits">
-			<!-- All the links in the footer should remain intact. -->
-			<!-- You can delete the links only if you purchased the pro version. -->
-			<!-- Licensing information: https://bootstrapmade.com/license/ -->
-			<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-			Designed by <a href="https://bootstrapmade.com/">Reviewers Team</a>
-		</div>
+		<div class="credits">Designed by Reviewers Team</div>
 	</footer>
-	<!-- End Footer -->
-
-	<a href="#"
-		class="back-to-top d-flex align-items-center justify-content-center"><i
-		class="bi bi-arrow-up-short"></i></a>
-
-	<!-- Vendor JS Files -->
-	<!-- <script src="<c:url value="/resources/assets/vendor/apexcharts/apexcharts.min.js"/>"></script> -->
-	<script
-		src="<c:url value="/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
-
-
-	<!-- <script src="<c:url value="/resources/assets/vendor/echarts/echarts.min.js"/>"></script> -->
-
-	<script
-		src="<c:url value="/resources/assets/vendor/quill/quill.min.js"/>"></script>
-	<script
-		src="<c:url value="/resources/assets/vendor/php-email-form/validate.js"/>"></script>
+	
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+	<script src="<c:url value="/resources/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
+	<script src="<c:url value="/resources/assets/vendor/quill/quill.min.js"/>"></script>
+	<script src="<c:url value="/resources/assets/vendor/php-email-form/validate.js"/>"></script>
 	<script src="<c:url value="/resources/assets/js/main.js"/>"></script>
 	<script src="<c:url value="/resources/assets/js/autoComplete.js"/>"></script>
-
-
-
-
-
 </body>
 </html>

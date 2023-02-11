@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.biz.cs.faq.dao.FaqBoardDAO;
 import com.spring.biz.cs.faq.vo.FaqBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.util.SearchCriteria;
 
 @Service
 public class FaqBoardServiceImpl implements FaqBoardService {
@@ -20,36 +20,43 @@ public class FaqBoardServiceImpl implements FaqBoardService {
 	}
 
 	@Override
-	public List<FaqBoardVO> list(Criteria cri) throws Exception {
-		return faqBoardDAO.list(cri);
+	public void insertBoard(FaqBoardVO vo) {
+		faqBoardDAO.insertBoard(vo);
 	}
 
 	@Override
-	public int listCount() throws Exception {
-		return faqBoardDAO.listCount();
+	public void updateBoard(FaqBoardVO vo) {
+		faqBoardDAO.updateBoard(vo);
 	}
 
 	@Override
-	public void write(FaqBoardVO FaqBoardVO) throws Exception {
-		faqBoardDAO.write(FaqBoardVO);
-
+	public void deleteBoard(FaqBoardVO vo) {
+		faqBoardDAO.deleteBoard(vo);
 	}
 
 	@Override
-	public FaqBoardVO read(int bno) throws Exception {
-		return faqBoardDAO.read(bno);
+	public FaqBoardVO getBoard(FaqBoardVO vo) {
+		return faqBoardDAO.getBoard(vo);
 	}
 
 	@Override
-	public void update(FaqBoardVO FaqBoardVO) throws Exception {
-		faqBoardDAO.update(FaqBoardVO);
-
+	public List<FaqBoardVO> getBoardList(FaqBoardVO vo) {
+		return faqBoardDAO.getBoardList(vo);
 	}
 
 	@Override
-	public void delete(int bno) throws Exception {
-		faqBoardDAO.delete(bno);
+	public int getTotalPages(SearchCriteria cri) {
+		return faqBoardDAO.getTotalPages(cri);
+	}
 
+	@Override
+	public List<FaqBoardVO> getBoardListWithPaging(SearchCriteria cri) {
+		return faqBoardDAO.getBoardListWithPaging(cri);
+	}
+
+	@Override
+	public List<FaqBoardVO> getBoardListWithDynamicPaging(SearchCriteria cri) {
+		return faqBoardDAO.getBoardListWithDynamicPaging(cri);
 	}
 
 }

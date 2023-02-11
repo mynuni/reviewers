@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.biz.cs.faq.vo.FaqBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.util.SearchCriteria;
 
 @Repository
 public class FaqBoardDAOImpl implements FaqBoardDAO {
 
-	private static String namespace = "faqBoardMapper";
+	private static String namespace = "faqBoardMapper.";
 	private final SqlSession sqlSession;
 
 	@Autowired
@@ -20,34 +20,35 @@ public class FaqBoardDAOImpl implements FaqBoardDAO {
 		this.sqlSession = sqlSession;
 	}
 
-	@Override
-	public List<FaqBoardVO> list(Criteria cri) throws Exception {
-		return sqlSession.selectList(namespace + ".list", cri);
+	public void insertBoard(FaqBoardVO vo) {
+		sqlSession.insert(namespace + "insertBoard", vo);
 	}
 
-	@Override
-	public int listCount() throws Exception {
-		return sqlSession.selectOne(namespace + ".listCount");
+	public void updateBoard(FaqBoardVO vo) {
+		sqlSession.update(namespace + "updateBoard", vo);
 	}
 
-	@Override
-	public void write(FaqBoardVO FaqBoardVO) throws Exception {
-		sqlSession.insert(namespace + ".write", FaqBoardVO);
-
+	public void deleteBoard(FaqBoardVO vo) {
+		sqlSession.delete(namespace + "deleteBoard", vo);
 	}
 
-	@Override
-	public FaqBoardVO read(int bno) throws Exception {
-		return sqlSession.selectOne(namespace + ".read", bno);
+	public FaqBoardVO getBoard(FaqBoardVO vo) {
+		return (FaqBoardVO) sqlSession.selectOne(namespace + "getBoard", vo);
 	}
 
-	@Override
-	public void update(FaqBoardVO FaqBoardVO) throws Exception {
-		sqlSession.update(namespace + ".update", FaqBoardVO);
+	public List<FaqBoardVO> getBoardList(FaqBoardVO vo) {
+		return sqlSession.selectList(namespace + "getBoardList", vo);
 	}
 
-	@Override
-	public void delete(int bno) throws Exception {
-		sqlSession.delete(namespace + ".delete", bno);
+	public int getTotalPages(SearchCriteria cri) {
+		return sqlSession.selectOne(namespace + "getTotalPages", cri);
+	}
+
+	public List<FaqBoardVO> getBoardListWithPaging(SearchCriteria cri) {
+		return sqlSession.selectList(namespace + "getBoardListWithPaging", cri);
+	}
+
+	public List<FaqBoardVO> getBoardListWithDynamicPaging(SearchCriteria cri) {
+		return sqlSession.selectList(namespace + "getBoardListWithDynamicPaging", cri);
 	}
 }

@@ -9,72 +9,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.spring.biz.cs.faq.service.FaqBoardService;
 import com.spring.biz.cs.faq.vo.FaqBoardVO;
-import com.spring.biz.util.Criteria;
-import com.spring.biz.util.PageMaker;
+import com.spring.biz.util.PageDTO;
+import com.spring.biz.util.SearchCriteria;
 
 @Controller
-@RequestMapping("/faq")
+@RequestMapping("/cs/faq")
 public class FaqBoardController {
 
 	private final FaqBoardService faqBoardService;
-	
+
 	@Autowired
 	public FaqBoardController(FaqBoardService faqBoardService) {
 		this.faqBoardService = faqBoardService;
 	}
 
 	@GetMapping
-	public String list(Criteria cri, Model model) throws Exception {
+	public String getBoardList(SearchCriteria cri, Model model) {
+		if (cri.getSearchCondition() == null) {
+			cri.setSearchCondition("TITLE");
+		}
+		if (cri.getSearchKeyword() == null) {
+			cri.setSearchKeyword("");
+		}
 
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(faqBoardService.listCount());
+		PageDTO pageMaker = new PageDTO(cri, faqBoardService.getTotalPages(cri));
 
-		model.addAttribute("list", faqBoardService.list(cri));
 		model.addAttribute("pageMaker", pageMaker);
-
+		model.addAttribute("boardList", faqBoardService.getBoardListWithDynamicPaging(cri));
+		
 		return "faq/list";
-	}
-
-	@GetMapping("read")
-	public String read(FaqBoardVO faqBoardVO, Model model) throws Exception {
-		model.addAttribute("read", faqBoardService.read(faqBoardVO.getBoardId()));
-
-		return "faq/read";
-	}
-
-	@GetMapping("write")
-	public String write() {
-		
-		return "faq/write-form";
-	}
-
-	@PostMapping("write")
-	public String write(FaqBoardVO faqBoardVO) throws Exception {
-		faqBoardService.write(faqBoardVO);
-		
-		return "redirect:/cs/faq";
-	}
-
-	@GetMapping("update")
-	public String updateView(FaqBoardVO faqBoardVO, Model model) throws Exception {
-		model.addAttribute("update", faqBoardService.read(faqBoardVO.getBoardId()));
-		
-		return "faq/update-form";
-	}
-
-	@PostMapping("update")
-	public String update(FaqBoardVO faqBoardVO) throws Exception {
-		faqBoardService.update(faqBoardVO);
-		
-		return "redirect:/cs/faq";
-	}
-
-	@PostMapping("delete")
-	public String delete(FaqBoardVO faqBoardVO) throws Exception {
-		faqBoardService.delete(faqBoardVO.getBoardId());
-		
-		return "redirect:/cs/faq";
 	}
 
 }

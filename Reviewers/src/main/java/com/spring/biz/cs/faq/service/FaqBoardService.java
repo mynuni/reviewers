@@ -3,19 +3,23 @@ package com.spring.biz.cs.faq.service;
 import java.util.List;
 
 import com.spring.biz.cs.faq.vo.FaqBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.util.SearchCriteria;
 
 public interface FaqBoardService {
 
-	public List<FaqBoardVO> list(Criteria cri) throws Exception;
+	public void insertBoard(FaqBoardVO vo);
 	
-	public int listCount() throws Exception;
+	public void updateBoard(FaqBoardVO vo);
+		
+	public void deleteBoard(FaqBoardVO vo);
 
-	public void write(FaqBoardVO faqBoardVO) throws Exception;
+	public FaqBoardVO getBoard(FaqBoardVO vo);
+	
+	public List<FaqBoardVO> getBoardList(FaqBoardVO vo);
 
-	public FaqBoardVO read(int bno) throws Exception;
+	public int getTotalPages(SearchCriteria cri);
 
-	public void delete(int bno) throws Exception;
+	public List<FaqBoardVO> getBoardListWithPaging(SearchCriteria cri);
 
-	public void update(FaqBoardVO faqBoardVO) throws Exception;
+	public List<FaqBoardVO> getBoardListWithDynamicPaging(SearchCriteria cri);
 }

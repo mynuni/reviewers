@@ -3,20 +3,24 @@ package com.spring.biz.cs.faq.dao;
 import java.util.List;
 
 import com.spring.biz.cs.faq.vo.FaqBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.util.SearchCriteria;
 
 public interface FaqBoardDAO {
 
-	public List<FaqBoardVO> list(Criteria cri) throws Exception;
+	public void insertBoard(FaqBoardVO vo);
 
-	public int listCount() throws Exception;
+	public void updateBoard(FaqBoardVO vo);
 
-	public void write(FaqBoardVO faqBoardVO) throws Exception;
+	public void deleteBoard(FaqBoardVO vo);
 
-	public FaqBoardVO read(int bno) throws Exception;
+	public FaqBoardVO getBoard(FaqBoardVO vo);
 
-	public void update(FaqBoardVO faqBoardVO) throws Exception;
+	public List<FaqBoardVO> getBoardList(FaqBoardVO vo);
 
-	public void delete(int bno) throws Exception;
+	public int getTotalPages(SearchCriteria cri);
+
+	public List<FaqBoardVO> getBoardListWithPaging(SearchCriteria cri);
+
+	public List<FaqBoardVO> getBoardListWithDynamicPaging(SearchCriteria cri);
 
 }

@@ -1,34 +1,67 @@
 package com.spring.biz.member.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.spring.biz.member.dao.MemberDAO;
-import com.spring.biz.member.vo.MemberVO;
+import com.spring.biz.dao.MemberDAO;
+import com.spring.biz.vo.MemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
+	private final MemberDAO memberDAO;
+	private final BCryptPasswordEncoder passwordEncoder;
+
 	@Autowired
-	MemberDAO memberDAO;
+	public MemberServiceImpl(MemberDAO memberDAO, BCryptPasswordEncoder passwordEncoder) {
+		this.memberDAO = memberDAO;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@Override
-	public void signUp(MemberVO memberVO) throws Exception {
+	public void signUp(MemberVO memberVO) {
+		String encryptedPw = passwordEncoder.encode(memberVO.getUserPw());
+		memberVO.setUserPw(encryptedPw);
 		memberDAO.signUp(memberVO);
 	}
 
 	@Override
-	public MemberVO login(MemberVO memberVO) throws Exception {
-		return memberDAO.login(memberVO);
-	}
+	public MemberVO login(MemberVO memberVO) {
+		MemberVO loginMember = memberDAO.findMemberById(memberVO.getUserId());
+		if (loginMember == null) {
+			throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다.");
+		}
 
-	@Override
-	public void memberUpdate(MemberVO memberVO) throws Exception {
-		memberDAO.memberUpdate(memberVO);
+		if (passwordEncoder.matches(memberVO.getUserPw(), loginMember.getUserPw())) {
+			return loginMember;
+		} else {
+			throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다.");
+		}
+
 	}
 	
 	@Override
-	public void memberDelete(MemberVO memberVO) throws Exception {
-		memberDAO.memberDelete(memberVO);
+	public void memberEdit(MemberVO memberVO) {
+		// 비밀번호를 변경하지 않을 경우 현재 비밀번호 유지
+	    if (memberVO.getUserPw() == null || memberVO.getUserPw() == "") {
+	        MemberVO memberInfo = memberDAO.findMemberById(memberVO.getUserId());
+	        memberVO.setUserPw(memberInfo.getUserPw());
+	    } else {
+	        String encodedPw = passwordEncoder.encode(memberVO.getUserPw());
+	        memberVO.setUserPw(encodedPw);
+	    }
+	    memberDAO.memberEdit(memberVO);
 	}
+	
+	@Override
+	public MemberVO findMemberById(String userId) {
+		return memberDAO.findMemberById(userId);		
+	}
+	
+	@Override
+	public void withdraw(MemberVO memberVO) {
+		memberDAO.withdraw(memberVO);
+	}
+
 }

@@ -1,103 +1,98 @@
 package com.spring.biz.member.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.biz.member.service.MemberService;
-import com.spring.biz.member.vo.MemberVO;
+import com.spring.biz.service.MemberService;
+import com.spring.biz.vo.MemberVO;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
-
-	@Autowired
-	MemberService memberService;
+	
+	private final MemberService memberService;
 	
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
-
-	@GetMapping("/signup")
-	public String signup() throws Exception {
-		return "member/signup-form";
+	public MemberController(MemberService memberService) {
+		this.memberService = memberService;
 	}
-
-	@PostMapping("/signup")
-	public void signup(MemberVO memberVO) throws Exception {
-		String password = memberVO.getUser_pw();
-		String bCryptPassword = passwordEncoder.encode(password);
-		memberVO.setUser_pw(bCryptPassword);
-
-		memberService.signUp(memberVO);
-	}
-
-	@PostMapping("/login")
-	public String login(MemberVO vo, HttpSession session, RedirectAttributes rAttr) throws Exception{
 	
-		session.getAttribute("member");
-		MemberVO login = memberService.login(vo);
-		System.out.println(login);
-		boolean pwdMatch = passwordEncoder.matches(vo.getUser_pw(), login.getUser_pw());
-
-		if(login != null && pwdMatch == true) {
-			session.setAttribute("member", login);
+	// 로그인 폼
+	@GetMapping("login")
+	public String loginForm() {
+		return "/member/login-form";
+	}
+	
+	// 로그인 처리
+	@PostMapping("login")
+	public String login(@ModelAttribute("member") MemberVO memberVO, HttpSession session, RedirectAttributes rAttr) {
+		MemberVO member = memberService.login(memberVO);
+		if (member != null) {
+			session.setAttribute("member", member);
+			return "redirect:/member/mypage";
 		} else {
-			session.setAttribute("member", null);
-			rAttr.addFlashAttribute("msg", false);
+			return "login";
 		}
-		
-		
-		return "redirect:/";
-	}
-
-	@GetMapping("/logout")
-	public String logout(HttpSession httpSession) throws Exception {
-
-		httpSession.invalidate();
-
-		return "redirect:/";
 	}
 	
-	@GetMapping("/edit")
-	public String memberUpdate() throws Exception{
-		
-		return "member/member-edit-form";
-	}
-
-	@PostMapping("/edit")
-	public String memberUpdate(MemberVO memberVO, HttpSession httpSession) throws Exception{
-		
-		memberService.memberUpdate(memberVO);
-		
-		return "redirect:/";
+	// 회원가입 폼
+	@GetMapping("sign-up")
+	public String signUpForm() {
+		return "/member/sign-up-form";
 	}
 	
-	@GetMapping("/delete")
-	public String memberDelete() throws Exception{
-		return "member/member-delete-form";
+	// 회원가입 처리
+	@PostMapping("sign-up")
+	public String signUpForm(@ModelAttribute("member") MemberVO memberVO, RedirectAttributes rAttr) {
+		memberService.signUp(memberVO);
+		rAttr.addFlashAttribute("status", true);
+		return "redirect:/member/login";
 	}
-
-	@PostMapping("/delete")
-	public String memberDelete(MemberVO memberVO, HttpSession httpSession, RedirectAttributes rAttr) throws Exception{
-		MemberVO member = (MemberVO) httpSession.getAttribute("member");
-		String sessionPw = member.getUser_pw();
-		String pwChk = memberVO.getUser_pw();
+	
+	// 회원정보수정 폼
+	@GetMapping("edit")
+	public String editForm() {
+		return "/member/edit-form";
+	}
+	
+	// 회원정보 수정 처리
+	@PostMapping("edit")
+	public String edit(@ModelAttribute("member") MemberVO memberVO, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		memberService.memberEdit(memberVO);
 		
-		if(!(sessionPw.equals(pwChk))) {
-			rAttr.addFlashAttribute("msg", false);
-			return "redirect:member/member-delete-form";
-		}
-		memberService.memberDelete(memberVO);
-		httpSession.invalidate();
-		return "redirect:/";
+		// 세션 정보 업데이트 
+		MemberVO updatedMember = memberService.findMemberById(member.getUserId());
+		session.setAttribute("member", updatedMember);
+		return "redirect:/member/mypage";
 	}
-
+	
+	// 회원탈퇴 폼
+	@GetMapping("withdraw")
+	public String withdraw() {
+		return "/member/withdraw";
+	}
+	
+	// 회원탈퇴 처리
+	@PostMapping("withdraw")
+	public String withdraw(HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		memberService.withdraw(member);
+		session.invalidate();
+		return "redirect:/member/login";
+	}
+	
+	// 마이페이지 폼
+	@GetMapping("mypage")
+	public String mypage(RedirectAttributes rAttr) {
+		return "/member/mypage";
+	}
 
 }

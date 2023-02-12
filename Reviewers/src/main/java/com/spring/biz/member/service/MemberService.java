@@ -1,15 +1,17 @@
 package com.spring.biz.member.service;
 
-import com.spring.biz.member.vo.MemberVO;
+import com.spring.biz.vo.MemberVO;
 
 public interface MemberService {
-
-	public void signUp(MemberVO memberVO) throws Exception;
-
-	public MemberVO login(MemberVO memberVO) throws Exception;
-
-	public void memberUpdate(MemberVO memberVO) throws Exception;
 	
-	public void memberDelete(MemberVO memberVO) throws Exception;
+	public void signUp(MemberVO memberVO);
+	
+	public MemberVO login(MemberVO memberVO);
+	
+	public void memberEdit(MemberVO memberVO);
+	
+	public void withdraw(MemberVO memberVO);
+	
+	public MemberVO findMemberById(String userId);
 	
 }

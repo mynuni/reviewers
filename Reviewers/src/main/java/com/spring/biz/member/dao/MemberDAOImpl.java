@@ -4,36 +4,45 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.biz.member.vo.MemberVO;
+import com.spring.biz.vo.MemberVO;
 
 @Repository
-public class MemberDAOImpl implements MemberDAO {
-
-	private static String namespace = "memberMapper";
-
+public class MemberDAOImpl implements MemberDAO{
+	
+	private final SqlSession sqlSession;
+	private final String NAMESPACE = "member";
+	
 	@Autowired
-	SqlSession sqlSession;
-
-	@Override
-	public void signUp(MemberVO memberVO) throws Exception {
-		sqlSession.insert(namespace + ".signUp", memberVO);
-
+	public MemberDAOImpl(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
 	}
 
 	@Override
-	public MemberVO login(MemberVO memberVO) throws Exception {
-		return sqlSession.selectOne(namespace + ".login", memberVO);
+	public void signUp(MemberVO memberVO) {
+		sqlSession.insert(NAMESPACE + ".signUp", memberVO);
 	}
 	
 	@Override
-	public void memberUpdate(MemberVO memberVO) throws Exception {
-		sqlSession.update(namespace + ".memberUpdate", memberVO);
+	public MemberVO login(MemberVO memberVO) {
+		return sqlSession.selectOne(NAMESPACE + ".login", memberVO);
 		
 	}
-
+	
 	@Override
-	public void memberDelete(MemberVO memberVO) throws Exception {
-		sqlSession.delete(namespace + ".memberDelete", memberVO);
+	public MemberVO findMemberById(String userId) {
+		return sqlSession.selectOne(NAMESPACE + ".findMemberById", userId);
+	}
+	
+	@Override
+	public void memberEdit(MemberVO memberVO) {
+		sqlSession.update(NAMESPACE + ".memberEdit", memberVO);
 		
 	}
+	
+	@Override
+	public void withdraw(MemberVO memberVO) {
+		sqlSession.delete(NAMESPACE + ".withdraw", memberVO.getUserId());
+		
+	}
+	
 }

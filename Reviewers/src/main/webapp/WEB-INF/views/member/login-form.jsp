@@ -34,7 +34,7 @@
 	<script>
 		$(function() {
 			// 뒤로가기 버튼
-			$(".btn__login").click(function() {
+			$(".btn__cancel").click(function() {
 				history.back();
 			});
 

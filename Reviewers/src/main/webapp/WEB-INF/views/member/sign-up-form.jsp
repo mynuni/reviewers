@@ -1,19 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+<title>로그인</title>
 </head>
 <body>
-	<form action="/member/signup" method="post">
-		<input name="user_id" type="text">
-		<input name="user_pw" type="password">
-		<input name="user_name" type="text">
-		<button type="submit">회원가입</button>
+	<h1>회원가입 페이지</h1>
+	<form action="/member/sign-up" method="post">
+		<div>
+			<label for="userId">아이디</label>
+			<input name="userId" type="text" onblur="checkId()">
+		</div>
+		<div>
+			<span id="idMsg"></span>
+		</div>
+		<div>
+			<label for="userPw">비밀번호</label
+			><input name="userPw" class="userPw" type="password">
+		</div>
+		<div>
+			<label for="confirmPw">비밀번호 확인</label>
+			<input name="confirmPw" class="confirmPw" type="password">
+		</div>
+		<div>
+			<span class=pwCheck></span>
+		</div>
+		<div>
+			<label for="userName">이름</label>
+			<input name="userName" type="text">
+		</div>
+		<div>
+			<span class="userNameCheck"></span>
+		</div>
+		<div>
+			<button type="submit">회원가입</button>
+			<button class="cancel-btn" type="button">취소</button>
+		</div>
 	</form>
 
 	<script>
@@ -46,6 +71,5 @@
 		    });
 		});
 	</script>
-	
 </body>
 </html>

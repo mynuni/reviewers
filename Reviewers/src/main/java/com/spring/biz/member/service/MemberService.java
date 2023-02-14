@@ -1,6 +1,6 @@
 package com.spring.biz.member.service;
 
-import com.spring.biz.vo.MemberVO;
+import com.spring.biz.member.vo.MemberVO;
 
 public interface MemberService {
 	
@@ -14,4 +14,5 @@ public interface MemberService {
 	
 	public MemberVO findMemberById(String userId);
 	
+	public void memberImgUpload(String userId, String userImg);
 }

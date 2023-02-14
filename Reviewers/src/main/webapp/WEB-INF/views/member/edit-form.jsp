@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<img src="${pageContext.servletContext.contextPath}${member.userImg}" alt="이미지 없음" id="preview">
+	<form action="/member/file-upload" method="post" enctype="multipart/form-data">
+		<input type="file" name="uploadFile" id="imageFile">
+		<button type="submit">사진변경</button>
+	</form>
+		<input type="hidden" name="userId" id="userId" value="${member.userId}">
+	
 	<form action="/member/edit" method="post">
 	    <div>
 		    <label for="userId">아이디:</label>
@@ -34,7 +42,7 @@
 		<button class="edit-btn" type="submit">수정</button>
 		<button class="withdraw-btn" type="button">탈퇴</button>
 	</form>
-	
+
 	<script>
 	$(function() {
 	  $(".changePw-btn").click(function() {
@@ -52,6 +60,20 @@
 	       $('.pwCheck').empty();
 	     }
 	   });
+	  
+	  
+	  $("#imageFile").on("change", function(event) {
+
+		    var file = event.target.files[0];
+
+		    var reader = new FileReader(); 
+		    reader.onload = function(e) {
+
+		        $("#preview").attr("src", e.target.result);
+		    }
+
+		    reader.readAsDataURL(file);
+		});
 	});
 	</script>
 		<script>
@@ -70,7 +92,17 @@
 			$(".pop-up__bottom").show(function(){
 				$(this).delay(700).fadeOut(2000);
 			});
+
+			$(".imgModBtn").on("click", function () {
+	            var file = $("#file").val();
+	            if (file == "") {
+	                alert("파일을 선택해주세요.");
+	                return;
+	            }
+	            $("#userImageForm").submit();
+        	});
 		});
+		
 	</script>
 </body>
 </html>

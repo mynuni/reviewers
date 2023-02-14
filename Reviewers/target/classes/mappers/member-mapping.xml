@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="memberMapper">
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="member">
 
-	<insert id="signUp">
+	<insert id="signUp" parameterType="MemberVO">
 		INSERT INTO member(user_id, user_pw, user_name)
-		VALUES(#{user_id}, #{user_pw}, #{user_name})
+		VALUES(#{userId}, #{userPw}, #{userName})
 	</insert>
 	
-	<select id="login" resultType="MemberVO">
-		SELECT user_id, user_pw, user_name
+	<select id="findMemberById" parameterType="String" resultType="MemberVO">
+		SELECT user_id, user_pw, user_name, user_img
 		FROM member
-		WHERE user_id = #{user_id}
+		WHERE user_id = #{userId}
 	</select>
 	
-	<update id="memberUpdate">
+	<update id="memberEdit" parameterType="MemberVO">
 		UPDATE member
-		SET user_pw = #{user_pw}, user_name = #{user_name}
-		WHERE user_id = #{user_id}
+		SET user_id = #{userId}, user_pw = #{userPw}, user_name = #{userName}
+		WHERE user_id = #{userId}
 	</update>
 	
-	<delete id="memberDelete">
+	<delete id="withdraw" parameterType="String">
 		DELETE FROM member
-		WHERE user_id = #{user_id} AND user_pw = #{user_pw}
+		WHERE user_id = #{userId}
 	</delete>
-
+	
+	<update id="memberImgUpload" parameterType="map">
+		UPDATE member
+		SET user_img = #{userImg}
+		WHERE user_id = #{userId}
+	</update>
+	
 </mapper>

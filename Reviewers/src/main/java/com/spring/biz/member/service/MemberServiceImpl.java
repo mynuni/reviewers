@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.spring.biz.dao.MemberDAO;
-import com.spring.biz.vo.MemberVO;
+import com.spring.biz.member.dao.MemberDAO;
+import com.spring.biz.member.vo.MemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -19,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	// 회원가입
 	@Override
 	public void signUp(MemberVO memberVO) {
 		String encryptedPw = passwordEncoder.encode(memberVO.getUserPw());
@@ -26,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.signUp(memberVO);
 	}
 
+	// 로그인
 	@Override
 	public MemberVO login(MemberVO memberVO) {
 		MemberVO loginMember = memberDAO.findMemberById(memberVO.getUserId());
@@ -41,9 +43,10 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 	
+	// 회원 정보 수정
 	@Override
 	public void memberEdit(MemberVO memberVO) {
-		// 비밀번호를 변경하지 않을 경우 현재 비밀번호 유지
+	    // 비밀번호를 변경하지 않을 경우 현재 비밀번호 유지
 	    if (memberVO.getUserPw() == null || memberVO.getUserPw() == "") {
 	        MemberVO memberInfo = memberDAO.findMemberById(memberVO.getUserId());
 	        memberVO.setUserPw(memberInfo.getUserPw());
@@ -54,6 +57,7 @@ public class MemberServiceImpl implements MemberService {
 	    memberDAO.memberEdit(memberVO);
 	}
 	
+	// find member by id
 	@Override
 	public MemberVO findMemberById(String userId) {
 		return memberDAO.findMemberById(userId);		
@@ -62,6 +66,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void withdraw(MemberVO memberVO) {
 		memberDAO.withdraw(memberVO);
+	}
+	
+	@Override
+	public void memberImgUpload(String userId, String userImg) {
+		System.out.println("service - memberImgUpload()");
+		memberDAO.memberImgUpload(userId, userImg);
 	}
 
 }

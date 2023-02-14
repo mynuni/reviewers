@@ -1,6 +1,6 @@
 package com.spring.biz.member.dao;
 
-import com.spring.biz.vo.MemberVO;
+import com.spring.biz.member.vo.MemberVO;
 
 public interface MemberDAO {
 	
@@ -13,5 +13,7 @@ public interface MemberDAO {
 	public void memberEdit(MemberVO memberVO);
 	
 	public void withdraw(MemberVO memberVO);
+	
+	public void memberImgUpload(String userId, String userImg);
 	
 }

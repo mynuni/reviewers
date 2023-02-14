@@ -49,8 +49,14 @@ public class MemberController {
 	
 	// 로그아웃 처리
 	@GetMapping("logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, RedirectAttributes  rAttr) {
+		
+		if(session.getAttribute("member") == null) {
+			return "redirect:/member/login";
+		}
+		
 		session.invalidate();
+		rAttr.addAttribute("logoutSuccess", true);
 	    return "redirect:/member/login";
 	}
 

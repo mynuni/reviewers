@@ -7,118 +7,6 @@
 <meta charset="UTF-8">
 <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
 <script src="https://kit.fontawesome.com/8e012a278c.js"></script>
-<style>
-.changePw-form {
-	display: none;
-}
-
-.mypage-container {
-	display: flex;
-}
-
-.mypage-container a {
-	text-decoration: none;
-	color: rgba(0, 0, 0, 0.75);
-}
-
-.mypage-menu {
-	width: 200px;
-	background-color: #f2f2f2;
-}
-
-.mypage-menu__info {
-	background-color: #f2f2f2;
-	text-align: center;
-	padding: 20px;
-}
-
-.profile-img-wrap {
-	position: relative;
-	display: inline-block;
-	margin-bottom: 10px;
-}
-
-.profile-img {
-	background-color: white;
-	border-radius: 50%;
-	width: 120px;
-	height: 120px;
-}
-
-.file-input {
-	display: none;
-}
-
-.file-label:hover {
-	background-color: #0084d4;
-}
-
-.file-selected {
-	margin-top: 8px;
-	font-size: 12px;
-}
-
-.profile-info__name {
-	font-size: 18px;
-	font-weight: 600;
-}
-
-.profile-info__id {
-	font-size: 14px;
-}
-
-.image-container {
-	position: relative;
-	display: inline-block;
-}
-
-.image-container i {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	color: rgba(0, 0, 0, 0.65);
-	background-color: lightgrey;
-	padding: 8px;
-	border-radius: 50%;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-	cursor: pointer;
-}
-
-.fileUpload-btn {
-	border: none;
-	background-color: coral;
-	color: white;
-	border-radius: 5px;
-	padding: 5px 10px;
-	cursor: pointer;
-	margin-top: 5px;
-}
-
-.fileUpload-cancel-btn {
-	border: none;
-	background-color: rgba(165, 165, 165, 1);
-	color: white;
-	border-radius: 5px;
-	padding: 5px 10px;
-	cursor: pointer;
-	margin-top: 5px;
-}
-
-.mypage-menu__list a {
-	text-decoration: none;
-	display: block;
-	cursor: pointer;
-	padding: 15px 30px;
-	font-size: 16px;
-	font-weight: 600;
-}
-
-.mypage-menu__list a:hover {
-	border-left: 3px solid coral;
-	color: coral;
-}
-
-</style>
 <title>Insert title here</title>
 </head>
 <body>
@@ -132,8 +20,7 @@
 								<img
 									src="${pageContext.servletContext.contextPath}${member.userImg}"
 									id="preview" class="profile-img"> <label for="imageFile"
-									class="file-label" id="file-label"><i
-									class="fas fa-camera"></i></label>
+									class="file-label" id="file-label"><i class="fas fa-camera"></i></label>
 							</div>
 						</c:when>
 						<c:otherwise>
@@ -141,8 +28,7 @@
 								<img
 									src="${pageContext.servletContext.contextPath}/resources/emptyUserImg.png"
 									id="preview" class="profile-img"> <label for="imageFile"
-									class="file-label" id="file-label"><i
-									class="fas fa-camera"></i></label>
+									class="file-label" id="file-label"><i class="fas fa-camera"></i></label>
 							</div>
 						</c:otherwise>
 					</c:choose>
@@ -159,10 +45,23 @@
 				</div>
 			</div>
 			<div class="mypage-menu__list">
-				<a href="/mypage/home">마이페이지 홈</a>
-				<a href="/mypage/update">회원정보수정</a>
-				<a href="/mypage/update">나의 활동</a>
-				<a href="/mypage/inquiry">1:1 문의 내역</a> <a href="/logout">로그아웃</a>
+				<a href="#">마이페이지 홈</a>
+				<a href="#">회원정보수정</a>
+				<div class="myactive-dropdown">
+				  <a href="#" class="myactive-dropdown-toggle">나의 활동
+				    <i class="fa fa-plus"></i>
+				    <i class="fa fa-minus"></i>
+				  </a>
+				  <ul class="myactive-dropdown-list">
+				    <li><a href="#">나의 관심 컨텐츠</a></li>
+				    <li><a href="#">내가 쓴 게시물</a></li>
+				    <li><a href="#">내가 쓴 댓글</a></li>
+				  </ul>
+				</div>
+				<a href="#">1:1 문의 내역</a>
+				<form action="/member/logout" id="logout-form" method="post" >
+				    <a onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+				</form>
 			</div>
 		</div>
 		<div class="mypage-content">컨텐츠 영역</div>
@@ -192,11 +91,35 @@
 	</form>
 
 	<script>
+			
+		$(function() {
+			$('.myactive-dropdown-toggle').click(function(e) {
+				  e.preventDefault();
+				  var dropdownList = $(this).siblings('.myactive-dropdown-list');
+				  dropdownList.slideToggle(200, function() {
+				    $(this).toggleClass('active');
+				  });
+
+				  var plusIcon = $(this).find('.fa-plus');
+				  var minusIcon = $(this).find('.fa-minus');
+
+				  if (plusIcon.is(':visible')) {
+				    plusIcon.hide();
+				    minusIcon.show();
+				  } else {
+				    minusIcon.hide();
+				    plusIcon.show();
+				  }
+
+				  $(this).toggleClass('active');
+				});
+			});
 		
 		// 회원 정보수정 관련 스크립트
 		$(function() {
 			// 비밀번호 일치 검증
 			$(".changePw-btn").click(function() {
+				
 				$(".changePw-form").show();
 			});
 

@@ -6,6 +6,8 @@ public interface MemberDAO {
 	
 	public void signUp(MemberVO memberVO);
 	
+	public int checkNameDuplicate(String userName);
+	
 	public MemberVO login(MemberVO memberVO);
 	
 	public MemberVO findMemberById(String userId);

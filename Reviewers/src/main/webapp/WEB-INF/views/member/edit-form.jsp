@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/resources/mypage/mypage.css">
 <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
 <script src="https://kit.fontawesome.com/8e012a278c.js"></script>
-<title>Insert title here</title>
+<title>리뷰어스 - 마이페이지</title>
 </head>
 <body>
 	<div class="mypage-container">
@@ -45,83 +46,162 @@
 				</div>
 			</div>
 			<div class="mypage-menu__list">
-				<a href="#">마이페이지 홈</a>
-				<a href="#">회원정보수정</a>
+				<a id="mypage" href="#">마이페이지 홈</a>
+				<a id="edit" href="#">회원정보수정</a>
 				<div class="myactive-dropdown">
 				  <a href="#" class="myactive-dropdown-toggle">나의 활동
 				    <i class="fa fa-plus"></i>
 				    <i class="fa fa-minus"></i>
 				  </a>
 				  <ul class="myactive-dropdown-list">
-				    <li><a href="#">나의 관심 컨텐츠</a></li>
-				    <li><a href="#">내가 쓴 게시물</a></li>
-				    <li><a href="#">내가 쓴 댓글</a></li>
+				    <li><a id="myfavorate" href="#">나의 관심 컨텐츠</a></li>
+				    <li><a id="mypost" href="#">내가 쓴 게시물</a></li>
+				    <li><a id="mycomment" href="#">내가 쓴 댓글</a></li>
 				  </ul>
 				</div>
-				<a href="#">1:1 문의 내역</a>
+				<a id="myqna" href="#">1:1 문의 내역</a>
 				<form action="/member/logout" id="logout-form" method="post" >
 				    <a onclick="document.getElementById('logout-form').submit();">로그아웃</a>
 				</form>
 			</div>
 		</div>
-		<div class="mypage-content">컨텐츠 영역</div>
-	</div>
-		<input type="hidden" name="userId" id="userId" value="${member.userId}">
-	
-	<form action="/member/edit" method="post">
-	    <div>
-		    <label for="userId">아이디:</label>
-			<input type="text" name="userId" value="${member.userId}">
-	    </div>
-		<button class="changePw-btn" type="button">비밀번호 변경</button>
-		<div class="changePw-form">
-		    <label for="userPw">새 비밀번호:</label>
-		    <input name="userPw" type="password" class="userPw"><br>
-		    <label for="confirmPw">새 비밀번호 확인:</label>
-		    <input name="confirmPw" type="password" class="confirmPw"><br>
-		    <span class="pwCheck"></span>
+		<div class="mypage-content">
+			<div class="mypage-edit-title">회원정보수정</div>
+			<div class="mypage-edit-container">
+				<div class="basic-info">
+					<div class="basic-info-title"><i class="fa-solid fa-circle-user"></i>기본 정보</div>
+					<form action="/member/edit" method="post">
+						<div class="userId-input-container">
+							<div class="edit-input-title">아이디</div>
+							<div>${member.userId}</div>
+							<button type="button" class="edit-input-btn edit-input-btn__cancel">변경불가</button>
+						</div>
+						<div class="userName-input-container">
+							<div class="edit-input-title">닉네임</div>
+							<input type="text" name="userName" id="userName" value="${member.userName}" readonly>
+							<div class="nameDuplicateCheck" id="nameDuplicateCheck"></div>
+							<button id="changeUserName-btn" class="edit-input-btn" type="button">닉네임 변경</button>
+							<button id="changeUserName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						</div>
+						<div class="userPw-input-container">
+							<div class="edit-input-title">비밀번호</div>
+							<i class="fa-solid fa-lock"></i>
+							<button class="changePw-btn edit-input-btn" type="button">비밀번호 변경</button>
+							<button id="changePw-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						</div>				
+							<div class="changePw-form">
+								<div class="newPw-wrap">
+									<div class="edit-input-title edit-input-title__newPw">새 비밀번호</div>
+									<input name="userPw" type="password" class="userPw"><br>
+								</div>
+								<div class="newPw-wrap">
+									<div class="edit-input-title edit-input-title__newPw">비밀번호 확인</div>
+									<input name="confirmPw" type="password" class="confirmPw"><br>
+									<div class="pwCheck"></div>
+								</div>
+							</div>
+						<button class="edit-btn" type="submit">수정</button>
+					</form>
+				</div>
+				<div class="basic-info">
+					<div class="basic-info-title">추가 정보</div>
+					<form action="/member/edit" method="post">
+						<div class="userName-input-container">
+							<div class="edit-input-title">전화번호</div>
+							<input type="text" name="userTel" id="userTel" value="${member.userTel}" readonly>
+							<button id="changeUserName-btn" class="edit-input-btn" type="button">닉네임 변경</button>
+							<button id="changeUserName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						</div>
+						<div class="userName-input-container">
+							<div class="edit-input-title">이메일 주소</div>
+							<input type="text" name="userEmail" id="userEmail" value="${member.userEmail}" readonly>
+							<button id="changeUserName-btn" class="edit-input-btn" type="button">이메일 변경</button>
+							<button id="changeUserName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						</div>
+						<div class="userId-input-container">
+							<div class="edit-input-title">생년월일</div>
+							<div>${member.userBirth}</div>
+							<button type="button" class="edit-input-btn edit-input-btn__cancel">변경불가</button>
+						</div>
+						<button class="edit-btn" type="submit">수정</button>
+					</form>
+				</div>
+			</div>
 		</div>
-	    <div>
-		    <label for="userName">닉네임:</label>
-			<input type="text" name="userName" value="${member.userName}">
-	    </div>
-		<button class="cancel-btn" type="button">취소</button>
-		<button class="edit-btn" type="submit">수정</button>
-		<button class="withdraw-btn" type="button">탈퇴</button>
-	</form>
+	</div>
+	<input type="hidden" name="userId" id="userId" value="${member.userId}">
 
 	<script>
-			
 		$(function() {
-			$('.myactive-dropdown-toggle').click(function(e) {
-				  e.preventDefault();
-				  var dropdownList = $(this).siblings('.myactive-dropdown-list');
-				  dropdownList.slideToggle(200, function() {
-				    $(this).toggleClass('active');
-				  });
+			
+	      // URI별 메뉴 효과
+		  var menuLinks = {
+		    '/member/mypage': '#mypage',
+		    '/member/edit': '#edit',
+		    '/member/myfavorate': '#myfavorate',
+		    '/member/mypost': '#mypost',
+		    '/member/mycomment': '#mycomment',
+		    '/member/myqna': '#myqna' };
+		  var link = menuLinks[window.location.pathname];
+		  if (link) {
+			  $(link).css({'border-left':'4px solid coral', 'color':'coral'});
+		  }
+		  
+		  // 마이페이지 드롭다운 효과
+		  $('.myactive-dropdown-toggle').click(function(e) {
+			  e.preventDefault();
+			  var dropdownList = $(this).siblings('.myactive-dropdown-list');
+			  dropdownList.slideToggle(200, function() {
+			    $(this).toggleClass('active');
+			  });
 
-				  var plusIcon = $(this).find('.fa-plus');
-				  var minusIcon = $(this).find('.fa-minus');
+			  var plusIcon = $(this).find('.fa-plus');
+			  var minusIcon = $(this).find('.fa-minus');
 
-				  if (plusIcon.is(':visible')) {
-				    plusIcon.hide();
-				    minusIcon.show();
-				  } else {
-				    minusIcon.hide();
-				    plusIcon.show();
-				  }
+			  if (plusIcon.is(':visible')) {
+			    plusIcon.hide();
+			    minusIcon.show();
+			  } else {
+			    minusIcon.hide();
+			    plusIcon.show();
+			  }
 
-				  $(this).toggleClass('active');
-				});
+			  $(this).toggleClass('active');
 			});
+		  
+		});
+	
+		// 정보 변경 취소 시 세션의 저장된 값으로 세팅
+		$(function() {
+		  $('#changeUserName-btn').click(function() {
+		    $('#userName').prop('readonly', false).css('background-color', '#fff');
+		    $(this).hide();
+		    $('#changeUserName-cancel-btn').show();
+		  });
+		  
+		  $('#changeUserName-cancel-btn').click(function() {
+			   $('#userName').val('${member.userName}').attr('readonly', 'readonly');
+		    $(this).hide();
+		    $('#changeUserName-btn').show();
+		  });
+		});
 		
 		// 회원 정보수정 관련 스크립트
 		$(function() {
 			// 비밀번호 일치 검증
 			$(".changePw-btn").click(function() {
-				
-				$(".changePw-form").show();
+			    $(this).hide();
+			    $(".changePw-form").css('display', 'block');
+			    $("#changePw-cancel-btn").show();
 			});
+			
+			$('#changePw-cancel-btn').click(function() {
+			    $(this).hide();
+			    $('.userPw, .confirmPw').val('');
+			    $('.pwCheck').text("");
+			    $(".changePw-form").hide();
+			    $('.changePw-btn').show();
+			  });
 
 			$('.userPw, .confirmPw').on('keyup', function() {
 				if ($('.userPw').val() && $('.confirmPw').val()) {
@@ -134,6 +214,31 @@
 							$('.pwCheck').empty();
 						}
 					});
+			
+			// 닉네임 중복검사
+			$("#userName").keyup(function() {
+				checkNameDuplicate();
+		      });
+			
+			function checkNameDuplicate() {
+			      var userName = $("#userName").val();
+			      $.ajax({
+			        url: "/member/checkNameDuplicate",
+			        type: "POST",
+			        data: {userName: userName},
+			        success: function(result) {
+			          if (result) {
+			            $("#nameDuplicateCheck").text("사용 가능한 닉네임입니다.");
+			          } else {
+			            $("#nameDuplicateCheck").text("이미 존재하는 닉네임입니다.");
+			          }
+			        },
+			        error: function() {
+			          $("#nameDuplicateCheck").text("서버와 통신 오류가 발생했습니다.");
+			        }
+			      });
+			    }
+
 			
 			// 파일을 업로드 해야만 변경 버튼이 노출
 			$("#submitBtn").hide();
@@ -164,8 +269,6 @@
 			
 				reader.readAsDataURL(file);
 			});
-
-			// AJAX 닉네임 중복 검사
 
 			// 파일 유무 검증 후 전송
 			$('#fileUploadForm').submit(function(e) {

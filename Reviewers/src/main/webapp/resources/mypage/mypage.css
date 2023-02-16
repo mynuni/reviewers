@@ -1,0 +1,264 @@
+@charset "UTF-8";
+
+.mypage-menu {
+	margin-right: 30px;
+}
+
+.mypage-content {
+	width: 700px;
+}
+
+.mypage-content input {
+	padding: 8px 12px;
+}
+
+.mypage-edit-container {
+	height: 900px;
+}
+
+.mypage-content input[readonly] {
+  background-color: rgba(240, 240, 240, 1) !important;
+}
+
+
+.basic-info {
+	border: 1px solid coral;
+	padding: 20px;
+	border-radius: 8px;
+}
+
+.basic-info-title {
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.75);
+	font-weight: 600;
+	margin-bottom: 10px;
+	padding-left: 8px;
+}
+
+.basic-info-title i{
+	margin-right: 5px;
+}
+
+.edit-input-title {
+	width: 120px;
+	font-size: 16px;
+	color: rgba(0, 0, 0, 0.75);
+	font-weight: 600;
+}
+
+.edit-input-btn {
+	margin-left: auto;
+	border: none;
+	background-color: coral;
+	color: white;
+	border-radius: 8px;
+	padding: 8px 12px;
+	cursor: pointer;
+}
+
+.edit-input-btn__cancel {
+	background-color: rgba(160, 160, 160, 1);
+	color: white;
+}
+
+.edit-input-btn__notAllow {
+	background-color: grey;
+	color: black;
+}
+
+.mypage-edit-title {
+	font-size: 24px;
+	font-weight: 600;
+	color: coral;
+	margin-bottom: 10px;
+}
+
+.changePw-form {
+	display: none;
+}
+
+.changePw-form .newPw-wrap{
+	display: flex;
+	padding: 8px;
+}
+
+.newPw-wrap .pwCheck {
+	margin: 5px 0 0 5px;
+}
+
+.userName-input-container .nameDuplicateCheck {
+	color: red;
+	
+}
+
+.changePw-form.show {
+	display: flex;
+}
+
+.mypage-container {
+	display: flex;
+}
+
+.mypage-container a {
+	text-decoration: none;
+	color: rgba(0, 0, 0, 0.75);
+}
+
+.mypage-menu {
+	width: 250px;
+	background-color: #f2f2f2;
+}
+
+.mypage-menu__info {
+	background-color: rgba(220, 220, 220, 1);
+	text-align: center;
+	padding: 30px 20px;
+}
+
+.profile-img-wrap {
+	position: relative;
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+.profile-img {
+	background-color: white;
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+}
+
+.file-input {
+	display: none;
+}
+
+.file-label:hover {
+	background-color: #0084d4;
+}
+
+.file-selected {
+	margin-top: 8px;
+	font-size: 12px;
+}
+
+.profile-info__name {
+	font-size: 18px;
+	font-weight: 600;
+	color: rgba(0, 0, 0, 0.75);
+}
+
+.profile-info__id {
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.75);
+}
+
+.image-container {
+	position: relative;
+	display: inline-block;
+}
+
+.image-container i {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	color: white;
+	background-color: rgba(45, 152, 240, 1);
+	padding: 8px;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+
+.fileUpload-btn {
+	border: none;
+	background-color: rgba(45, 152, 240, 1);
+	color: white;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	margin-top: 5px;
+}
+
+.fileUpload-cancel-btn {
+	border: none;
+	background-color: rgba(165, 165, 165, 1);
+	color: white;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	margin-top: 5px;
+}
+
+.mypage-menu__list a {
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	padding: 18px 30px;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.mypage-menu__list a:hover {
+	color: coral;
+}
+
+.myactive-dropdown-list {
+	display: none;
+	margin: 0;
+	padding-left: 15px;
+}
+
+.myactive-dropdown-list li {
+	list-style: none;
+}
+
+.myactive-dropdown-list li a {
+	font-size: 14px;
+}
+
+.myactive-dropdown-list li a:hover {
+	color: coral;
+	border: none;
+}
+
+.myactive-dropdown-toggle .fa-plus, .myactive-dropdown-toggle .fa-minus
+	{
+	background-color: rgba(200, 200, 200, 1);
+	color: white;
+	border-radius: 50%;
+	padding: 3px;
+	margin-top: 2px;
+	float: right;
+}
+
+.myactive-dropdown-toggle .fa-minus {
+	display: none;
+}
+
+.myactive-dropdown-toggle.active {
+	color: coral;
+}
+
+#changeUserName-cancel-btn, #changePw-cancel-btn {
+	display: none;
+}
+
+.userId-input-container, .userName-input-container,
+	.userPw-input-container {
+	display: flex;
+	overflow: hidden;
+	border-bottom: 1px solid lightgrey;
+	padding: 8px;
+	margin: 5px 0 10px 0;
+}
+
+.userPw-input-container i {
+	padding-top: 3px;
+	font-size: 20px;
+	color: rgba(0, 0, 0, 0.65);
+}
+
+.userId-input-container {
+}
+
+.changePw-form 

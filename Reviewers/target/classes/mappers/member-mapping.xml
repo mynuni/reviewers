@@ -11,7 +11,7 @@
 	</insert>
 	
 	<select id="findMemberById" parameterType="String" resultType="MemberVO">
-		SELECT user_id, user_pw, user_name, user_img
+		SELECT user_id, user_pw, user_name, user_tel, user_email, user_birth, user_img
 		FROM member
 		WHERE user_id = #{userId}
 	</select>
@@ -32,5 +32,9 @@
 		SET user_img = #{userImg}
 		WHERE user_id = #{userId}
 	</update>
+	
+	<select id="checkNameDuplicate" parameterType="String" resultType="int">
+    	select count(*) from member where user_name = #{userName}
+  	</select>
 	
 </mapper>

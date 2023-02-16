@@ -26,6 +26,11 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 	
 	@Override
+	public int checkNameDuplicate(String userName) {
+		return sqlSession.selectOne(NAMESPACE + ".checkNameDuplicate", userName);
+	}
+	
+	@Override
 	public MemberVO login(MemberVO memberVO) {
 		return sqlSession.selectOne(NAMESPACE + ".login", memberVO);
 		

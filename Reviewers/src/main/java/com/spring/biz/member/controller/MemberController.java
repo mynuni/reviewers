@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -48,15 +49,12 @@ public class MemberController {
 	}
 	
 	// 로그아웃 처리
-	@GetMapping("logout")
-	public String logout(HttpSession session, RedirectAttributes  rAttr) {
-		
-		if(session.getAttribute("member") == null) {
-			return "redirect:/member/login";
-		}
-		
-		session.invalidate();
-		rAttr.addAttribute("logoutSuccess", true);
+	@PostMapping("logout")
+	public String logout(HttpSession session) {
+	    if (session == null) {
+	        return "redirect:/member/login";
+	    }
+	    session.invalidate();
 	    return "redirect:/member/login";
 	}
 
@@ -73,10 +71,21 @@ public class MemberController {
 		rAttr.addFlashAttribute("status", true);
 		return "redirect:/member/login";
 	}
+	
+	// 닉네임 중복검사
+    @ResponseBody
+    @PostMapping("checkNameDuplicate")
+    public boolean checkNameDuplicate(@RequestParam String userName) {
+        return memberService.isNameDuplicate(userName);
+    }
 
 	// 회원정보수정 폼
 	@GetMapping("edit")
-	public String editForm() {
+	public String editForm(HttpSession session) {
+		MemberVO loginUser = (MemberVO) session.getAttribute("member");
+		if(loginUser == null) {
+			return "/member/login-form";
+		}
 		return "/member/edit-form";
 	}
 
@@ -92,7 +101,7 @@ public class MemberController {
 		return "redirect:/member/mypage";
 	}
 
-	// 파일 업로드
+	// 프로필 사진 업로드
 	@PostMapping("file-upload")
 	public String fileUpload(@RequestParam("uploadFile") MultipartFile file, HttpSession session) throws Exception {
 	    MemberVO member = (MemberVO) session.getAttribute("member");
@@ -110,7 +119,7 @@ public class MemberController {
 
 	    String uploadPath = basePath + uploadFileName;
 
-	    File dest = new File(session.getServletContext().getRealPath("/resources/member/images/" + uploadFileName));
+	    File dest = new File(session.getServletContext().getRealPath(basePath + uploadFileName));
 	    file.transferTo(dest);
 
 	    member.setUserImg(uploadPath);

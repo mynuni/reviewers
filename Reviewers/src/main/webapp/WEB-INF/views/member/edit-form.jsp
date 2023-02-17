@@ -14,6 +14,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<div class="mypage-container">
 		<div class="mypage-menu">
 			<div class="mypage-menu__info">

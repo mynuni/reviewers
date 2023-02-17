@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.spring.biz.cs.QnaBoardMapper">
+
+	<!-- 게시글 목록 조회 -->
+    <select id="getQnaBoardList" parameterType="hashmap" resultType="QnaBoardVO">
+        SELECT board_id, subject, title, writer, write_date, is_answered, file_path
+        FROM qna_board
+        WHERE is_deleted = 'N'
+        ORDER BY write_date DESC
+    </select>
+
+	<!-- 게시글 조회 -->
+    <select id="getQnaBoard" parameterType="int" resultType="QnaBoardVO">
+        SELECT board_id, subject, title, content, writer, write_date, view_cnt, is_answered, file_path
+        FROM qna_board
+        WHERE board_id = #{board_id}
+    </select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertQnaBoard" parameterType="QnaBoardVO">
+	    INSERT INTO qna_board (board_id, subject, title, content, writer, write_date, file_path)
+	    VALUES (#{board_id}, #{subject}, #{title}, #{content}, #{writer}, #{writeDate},
+			    <if test="filePath == null">''</if>
+			    <if test="filePath != null"> #{filePath} </if>)
+	</insert>
+
+	<!-- 게시글 수정 -->
+    <update id="updateQnaBoard" parameterType="QnaBoardVO">
+        UPDATE qna_board
+        SET subject = #{subject},
+        	title = #{title},
+            content = #{content},
+            <if test="filePath == null or filePath == ''">file_path = ''</if>
+        	<if test="filePath != null and filePath != ''">file_path = #{filePath}</if>
+        WHERE board_id = #{board_id}
+    </update>
+    
+    <!-- 조회수 증가 -->
+    <update id="updateQnaBoardViewCnt" parameterType="int">
+	    UPDATE qna_board
+	    SET view_cnt = view_cnt + 1
+	    WHERE board_id = #{board_id}
+	</update>
+
+	<!-- 게시글 삭제 -->
+    <delete id="deleteQnaBoard" parameterType="int">
+        UPDATE qna_board
+        SET is_deleted = 'Y'
+        WHERE board_id = #{board_id}
+    </delete>
+
+</mapper>

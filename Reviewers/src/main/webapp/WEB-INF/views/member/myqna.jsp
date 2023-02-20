@@ -4,62 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-.qna-table {
-	width: 100%;
-}
-
-.page-container {
-	margin-top: 30px; align-items : center;
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	font-size: 18px;
-	color: coral;
-	font-size: 18px;
-	align-items: center;
-}
-
-.page-container a {
-	text-decoration: none;
-	color: black;
-}
-
-.page-group-btn {
-	font-size: 20px;
-	margin: 14px;
-	color: coral;
-}
-
-.page-container .page-link {
-	border-radius: 3px;
-	border: 1px solid lightgrey;
-	font-size: 18px;
-	color: black;
-	padding: 5px;
-	margin: 1px;
-	width: 40px;
-}
-
-.page-container .page-link:hover {
-	border: 2px solid coral;
-}
-
-.currentPage {
-	border-radius: 3px;
-	color: white !important;
-	background-color: coral;
-	cursor: pointer;
-	font-size: 18px;
-	padding: 5px;
-	margin: 1px;
-	width: 40px;
-}
-
-.currentPage:hover {
-	color: white !important;
-}
-</style>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="/resources/mypage/mypage.css">
 <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
@@ -71,6 +15,7 @@
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
 	<main class="main main-container" id="main">
 	<div class="mypage-container">
+		<!-- 마이페이지 메뉴 -->
 		<div class="mypage-menu">
 			<div class="mypage-menu__info">
 				<div class="profile-img-wrap">
@@ -114,6 +59,7 @@
 				</form>
 			</div>
 		</div>
+		<!-- 마이페이지 메뉴 끝 -->
 		<div class="mypage-content">
 			<div class="mypage-edit-title">1:1 문의 내역</div>
 			<div class="mypage-edit-container">
@@ -122,50 +68,72 @@
 						<div class="qna-title">
 							<h3>나의 문의</h3>
 						</div>
+
+						<!-- 검색바 -->
+						<form method="get" action="/member/myqna">
+							<div>
+								<select name="searchType">
+									<option value="">전체</option>
+									<option value="title">제목</option>
+									<option value="content">내용</option>
+									<option value="subject">주제</option>
+								</select> <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+								<button type="submit">검색</button>
+							</div>
+							<input type="hidden" name="page" value="${searchCriteria.page}"> <input type="hidden" name="perPageNum" value="${searchCriteria.perPageNum}">
+						</form>
+						<!-- 검색바 끝 -->
+
+						<!-- 게시판 -->
 						<table class="qna-table">
-							<tbody>
+							<thead>
 								<tr>
 									<th>번호</th>
+									<th>구분</th>
 									<th>제목</th>
 									<th>작성자</th>
 									<th>작성일</th>
+									<th>상태</th>
 								</tr>
+							</thead>
+							<tbody>
 								<c:forEach items="${board}" var="board">
 									<tr>
-										<td>${board.boardId}</td>
-										<td><a href="/member/myqna?page=${board.boardId}">${board.title}</a></td>
-										<td>${board.writer}</td>
-										<td><fmt:formatDate value="${board.writeDate}" pattern="yyyy.MM.dd" /></td>
+										<td class="qna-id">${board.boardId}</td>
+										<td class="qna-subject">[${board.subject}]</td>
+										<td class="qna-title"><a href="/member/myqna?page=${board.boardId}">${board.title}</a></td>
+										<td class="qna-writer">${board.writer}</td>
+										<td class="qna-date"><fmt:formatDate value="${board.writeDate}" pattern="yyyy.MM.dd" /></td>
+										<td class="qna-status <c:if test="${board.isAnswered == true}">answered</c:if>"><c:if test="${board.isAnswered == false}">처리중</c:if> <c:if test="${board.isAnswered == true}">답변완료</c:if></td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
+						<!-- 게시판 끝 -->
 					</div>
-					<!-- 페이징 처리 -->
+
+					<!-- 페이징 -->
 					<div class="page-container">
 						<c:if test="${pageMaker.prev}">
-							<a class="page-group-btn" href="/member/myqna?page=${pageMaker.startPage - 1}&perPageNum=${criteria.perPageNum}"><i class="fa-solid fa-chevron-left"></i></a>
+							<a class="page-group-btn" href="/member/myqna?page=${pageMaker.startPage - 1}&searchType=${searchCriteria.searchType}&keyword=${searchCriteria.keyword}"> <i class="fa-solid fa-chevron-left"></i>
+							</a>
 						</c:if>
 						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
 							<c:choose>
-								<c:when test="${page eq criteria.page}">
+								<c:when test="${page eq searchCriteria.page}">
 									<a class="currentPage">${page}</a>
 								</c:when>
 								<c:otherwise>
-									<a class="page-link" href="/member/myqna?page=${page}&perPageNum=${criteria.perPageNum}">${page}</a>
+									<a class="page-link" href="/member/myqna?page=${page}&perPageNum=${searchCriteria.perPageNum}&searchType=${searchCriteria.searchType}&keyword=${searchCriteria.keyword}">${page}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<c:if test="${pageMaker.next}">
-							<a class="page-group-btn" href="/member/myqna?page=${pageMaker.endPage + 1}&perPageNum=${criteria.perPageNum}"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-group-btn" href="/member/myqna?page=${pageMaker.endPage + 1}&perPageNum=${searchCriteria.perPageNum}&searchType=${searchCriteria.searchType}&keyword=${searchCriteria.keyword}"><i class="fa-solid fa-chevron-right"></i></a>
 						</c:if>
 					</div>
+					<!-- 페이징 끝 -->
 				</div>
-
-			</div>
-			<div class="edit-input-btn-container">
-				<button class="edit-input-btn edit-input-btn__cancel" type="submit">취소</button>
-				<button id="editSubmitBtn" class="edit-input-btn edit-input-btn__save" type="submit">변경사항 저장</button>
 			</div>
 		</div>
 	</div>

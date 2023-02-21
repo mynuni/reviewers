@@ -1,50 +1,66 @@
 package com.spring.biz.cs.qna.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.biz.cs.qna.vo.QnaBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.cs.vo.QnaBoardVO;
+import com.spring.biz.util.SearchCriteria;
 
 @Repository
 public class QnaBoardDAOImpl implements QnaBoardDAO {
 
-	private static String namespace = "qnaBoardMapper";
+	private final SqlSession sqlSession;
+	private final String NAMESPACE = "QnaBoardMapper";
 
-	@Autowired
-	private SqlSession sqlSession;
-
-	@Override
-	public List<QnaBoardVO> list(Criteria cri) throws Exception {
-		return sqlSession.selectList(namespace + ".list", cri);
+	public QnaBoardDAOImpl(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
 	}
 
 	@Override
-	public int listCount() throws Exception {
-		return sqlSession.selectOne(namespace + ".listCount");
+	public int getBoardCount() {
+		return sqlSession.selectOne(NAMESPACE + ".getBoardCount");
 	}
 
 	@Override
-	public void write(QnaBoardVO qnaBoardVO) throws Exception {
-		sqlSession.insert(namespace + ".write", qnaBoardVO);
-
+	public int getMyBoardCount(SearchCriteria criteria, String userId) {
+		Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("userId", userId);
+	    paramMap.put("searchType", criteria.getSearchType());
+	    paramMap.put("keyword", criteria.getKeyword());
+		return sqlSession.selectOne(NAMESPACE + ".getMyBoardCount", paramMap);
 	}
 
 	@Override
-	public QnaBoardVO read(int bno) throws Exception {
-		return sqlSession.selectOne(namespace + ".read", bno);
+	public List<QnaBoardVO> getBoardList(SearchCriteria criteria) {
+		return sqlSession.selectList(NAMESPACE + ".getBoardList", criteria);
 	}
 
 	@Override
-	public void update(QnaBoardVO qnaBoardVO) throws Exception {
-		sqlSession.update(namespace + ".update", qnaBoardVO);
+	public List<QnaBoardVO> getMyBoardList(SearchCriteria criteria, String userId) {
+
+		if (criteria.getSearchType() == null) {
+			criteria.setSearchType("");
+		}
+
+		if (criteria.getKeyword() == null) {
+			criteria.setKeyword("");
+		}
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("criteria", criteria);
+		paramMap.put("userId", userId);
+		paramMap.put("searchType", criteria.getSearchType());
+		paramMap.put("keyword", criteria.getKeyword());
+
+		return sqlSession.selectList(NAMESPACE + ".getMyBoardList", paramMap);
+	}
+	
+	@Override
+	public void writeQnaBoard(QnaBoardVO qnaBoardVO) {
+		sqlSession.insert(NAMESPACE + ".writeQnaBoard", qnaBoardVO);
 	}
 
-	@Override
-	public void delete(int bno) throws Exception {
-		sqlSession.delete(namespace + ".delete", bno);
-	}
 }

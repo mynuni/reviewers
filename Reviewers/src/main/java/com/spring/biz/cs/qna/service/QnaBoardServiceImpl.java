@@ -5,47 +5,43 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.biz.cs.qna.dao.QnaBoardDAO;
-import com.spring.biz.cs.qna.vo.QnaBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.cs.dao.QnaBoardDAO;
+import com.spring.biz.cs.vo.QnaBoardVO;
+import com.spring.biz.util.SearchCriteria;
 
 @Service
 public class QnaBoardServiceImpl implements QnaBoardService {
 
+	private final QnaBoardDAO qnaBoardDAO;
+
 	@Autowired
-	private QnaBoardDAO qnaBoardDAO;
-
-	@Override
-	public List<QnaBoardVO> list(Criteria cri) throws Exception {
-		return qnaBoardDAO.list(cri);
+	public QnaBoardServiceImpl(QnaBoardDAO qnaBoardDAO) {
+		this.qnaBoardDAO = qnaBoardDAO;
 	}
 
 	@Override
-	public int listCount() throws Exception {
-		return qnaBoardDAO.listCount();
+	public int getBoardCount() {
+		return qnaBoardDAO.getBoardCount();
 	}
 
 	@Override
-	public void write(QnaBoardVO qnaBoardVO) throws Exception {
-		qnaBoardDAO.write(qnaBoardVO);
-
+	public int getMyBoardCount(SearchCriteria criteria, String userId) {
+		return qnaBoardDAO.getMyBoardCount(criteria, userId);
 	}
 
 	@Override
-	public QnaBoardVO read(int bno) throws Exception {
-		return qnaBoardDAO.read(bno);
+	public List<QnaBoardVO> getBoardList(SearchCriteria criteria) {
+		return qnaBoardDAO.getBoardList(criteria);
 	}
 
 	@Override
-	public void update(QnaBoardVO qnaBoardVO) throws Exception {
-		qnaBoardDAO.update(qnaBoardVO);
-
+	public List<QnaBoardVO> getMyBoardList(SearchCriteria criteria, String userId) {
+		return qnaBoardDAO.getMyBoardList(criteria, userId);
 	}
-
+	
 	@Override
-	public void delete(int bno) throws Exception {
-		qnaBoardDAO.delete(bno);
-
+	public void writeQnaBoard(QnaBoardVO qnaBoardVO) {
+		qnaBoardDAO.writeQnaBoard(qnaBoardVO);
 	}
 
 }

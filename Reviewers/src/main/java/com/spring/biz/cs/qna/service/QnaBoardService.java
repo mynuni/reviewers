@@ -2,20 +2,22 @@ package com.spring.biz.cs.qna.service;
 
 import java.util.List;
 
-import com.spring.biz.cs.qna.vo.QnaBoardVO;
-import com.spring.biz.util.Criteria;
+import com.spring.biz.cs.vo.QnaBoardVO;
+import com.spring.biz.util.SearchCriteria;
 
 public interface QnaBoardService {
-	
-	public List<QnaBoardVO> list(Criteria cri) throws Exception;
-	
-	public int listCount() throws Exception;
 
-	public void write(QnaBoardVO qnaBoardVO) throws Exception;
-	
-	public QnaBoardVO read(int bno) throws Exception;
-	
-	public void delete(int bno) throws Exception;
+	// 글 개수
+	public int getBoardCount();
 
-	public void update(QnaBoardVO qnaBoardVO) throws Exception;
+	public int getMyBoardCount(SearchCriteria criteria, String userId);
+
+	// 글 목록
+	public List<QnaBoardVO> getBoardList(SearchCriteria criteria);
+
+	public List<QnaBoardVO> getMyBoardList(SearchCriteria criteria, String userId);
+
+	// 글 작성
+	public void writeQnaBoard(QnaBoardVO qnaBoardVO);
+ 
 }

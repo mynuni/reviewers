@@ -15,51 +15,7 @@
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
 	<main class="main main-container" id="main">
 	<div class="mypage-container">
-		<!-- 마이페이지 메뉴 -->
-		<div class="mypage-menu">
-			<div class="mypage-menu__info">
-				<div class="profile-img-wrap">
-					<c:choose>
-						<c:when test="${member.userImg != null}">
-							<div class="image-container">
-								<img src="${pageContext.servletContext.contextPath}${member.userImg}" id="preview" class="profile-img"> <label for="imageFile" class="file-label" id="file-label"><i class="fas fa-camera"></i></label>
-							</div>
-						</c:when>
-						<c:otherwise>
-							<div class="image-container">
-								<img src="${pageContext.servletContext.contextPath}/resources/emptyUserImg.png" id="preview" class="profile-img"> <label for="imageFile" class="file-label" id="file-label"><i class="fas fa-camera"></i></label>
-							</div>
-						</c:otherwise>
-					</c:choose>
-					<form id="fileUploadForm" action="/member/file-upload" method="post" enctype="multipart/form-data">
-						<input type="file" name="uploadFile" id="imageFile" class="file-input">
-						<button type="submit" class="fileUpload-btn" id="submitBtn">변경</button>
-						<button type="button" class="fileUpload-cancel-btn" id="submitCancelBtn">취소</button>
-					</form>
-				</div>
-				<div class="profile-info-wrap">
-					<div class="profile-info__name">${member.userName}</div>
-					<div class="profile-info__id">(${member.userId})</div>
-				</div>
-			</div>
-			<div class="mypage-menu__list">
-				<a id="mypage" href="#">마이페이지 홈</a> <a id="edit" href="#">회원정보수정</a>
-				<div class="myactive-dropdown">
-					<a href="#" class="myactive-dropdown-toggle">나의 활동 <i class="fa fa-plus"></i> <i class="fa fa-minus"></i>
-					</a>
-					<ul class="myactive-dropdown-list">
-						<li><a id="myfavorate" href="#">나의 관심 컨텐츠</a></li>
-						<li><a id="mypost" href="#">내가 쓴 게시물</a></li>
-						<li><a id="mycomment" href="#">내가 쓴 댓글</a></li>
-					</ul>
-				</div>
-				<a id="myqna" href="/member/myqna">1:1 문의 내역</a>
-				<form action="/member/logout" id="logout-form" method="post">
-					<a onclick="document.getElementById('logout-form').submit();">로그아웃</a>
-				</form>
-			</div>
-		</div>
-		<!-- 마이페이지 메뉴 끝 -->
+	<jsp:include page="/WEB-INF/views/common/mypage-menu.jsp" />
 		<div class="mypage-content">
 			<div class="mypage-edit-title">1:1 문의 내역</div>
 			<div class="mypage-edit-container">
@@ -71,16 +27,17 @@
 
 						<!-- 검색바 -->
 						<form method="get" action="/member/myqna">
-							<div>
+							<div class="search-container">
 								<select name="searchType">
-									<option value="">전체</option>
-									<option value="title">제목</option>
-									<option value="content">내용</option>
-									<option value="subject">주제</option>
-								</select> <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-								<button type="submit">검색</button>
+									<option value="" <c:if test="${empty searchCriteria.searchType}">selected</c:if>>전체</option>
+									<option value="title" <c:if test="${searchCriteria.searchType == 'title'}">selected</c:if>>제목</option>
+									<option value="content" <c:if test="${searchCriteria.searchType == 'content'}">selected</c:if>>내용</option>
+									<option value="subject" <c:if test="${searchCriteria.searchType == 'subject'}">selected</c:if>>주제</option>
+								</select> <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="${searchCriteria.keyword}">
+								<button type="submit">
+									<i class="fa fa-search"></i>
+								</button>
 							</div>
-							<input type="hidden" name="page" value="${searchCriteria.page}"> <input type="hidden" name="perPageNum" value="${searchCriteria.perPageNum}">
 						</form>
 						<!-- 검색바 끝 -->
 
@@ -97,16 +54,39 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${board}" var="board">
-									<tr>
-										<td class="qna-id">${board.boardId}</td>
-										<td class="qna-subject">[${board.subject}]</td>
-										<td class="qna-title"><a href="/member/myqna?page=${board.boardId}">${board.title}</a></td>
-										<td class="qna-writer">${board.writer}</td>
-										<td class="qna-date"><fmt:formatDate value="${board.writeDate}" pattern="yyyy.MM.dd" /></td>
-										<td class="qna-status <c:if test="${board.isAnswered == true}">answered</c:if>"><c:if test="${board.isAnswered == false}">처리중</c:if> <c:if test="${board.isAnswered == true}">답변완료</c:if></td>
-									</tr>
-								</c:forEach>
+								<c:choose>
+									<c:when test="${not empty board}">
+										<c:forEach items="${board}" var="board">
+											<tr>
+												<td class="qna-id">${board.boardId}</td>
+												<td class="qna-subject">[${board.subject}]</td>
+												<td class="qna-title"><a href="/member/myqna?page=${board.boardId}">${board.title}</a></td>
+												<td class="qna-writer">${board.writer}</td>
+												<td class="qna-date"><fmt:formatDate value="${board.writeDate}" pattern="yyyy.MM.dd" /></td>
+												<td class="qna-status <c:if test="${board.isAnswered == true}">answered</c:if>"><c:if test="${board.isAnswered == false}">처리중</c:if> <c:if test="${board.isAnswered == true}">답변완료</c:if></td>
+											</tr>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<tr>
+											<td class="result-empty" colspan="6">
+												<div>
+													<c:choose>
+														<c:when test="${empty param.searchType and empty param.keyword}">
+															<div>작성하신 문의가 없습니다.</div>
+														</c:when>
+														<c:otherwise>
+															<div>
+																<span class="user-keyword">'${param.keyword}'</span>에 대한 검색 결과가 존재하지 않습니다.
+															</div>
+              												<div>다른 검색어를 사용해보시거나 검색 기준을 변경해보세요.</div>
+														</c:otherwise>
+													</c:choose>
+												</div>
+											</td>
+										</tr>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
 						</table>
 						<!-- 게시판 끝 -->

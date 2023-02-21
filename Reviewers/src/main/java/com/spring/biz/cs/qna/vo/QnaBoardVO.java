@@ -4,28 +4,40 @@ import java.util.Date;
 
 public class QnaBoardVO {
 
-	private Integer t_no;
-	private Integer b_no;
+	private int tableId;
+	private int boardId;
+	private String subject;
 	private String title;
 	private String content;
 	private String writer;
-	private Integer is_answered;
-	private Date reg_date;
+	private String writerId;
+	private Date writeDate;
+	private boolean isDeleted;
+	private boolean isAnswered;
+	private String filePath;
 
-	public Integer getT_no() {
-		return t_no;
+	public int getTableId() {
+		return tableId;
 	}
 
-	public void setT_no(Integer t_no) {
-		this.t_no = t_no;
+	public void setTableId(int tableId) {
+		this.tableId = tableId;
 	}
 
-	public Integer getB_no() {
-		return b_no;
+	public int getBoardId() {
+		return boardId;
 	}
 
-	public void setB_no(Integer b_no) {
-		this.b_no = b_no;
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getTitle() {
@@ -52,20 +64,61 @@ public class QnaBoardVO {
 		this.writer = writer;
 	}
 
-	public Integer getIs_answered() {
-		return is_answered;
+	public String getWriterId() {
+		return writerId;
 	}
 
-	public void setIs_answered(Integer is_answered) {
-		this.is_answered = is_answered;
+	public void setWriterId(String writerId) {
+		this.writerId = writerId;
 	}
 
-	public Date getReg_date() {
-		return reg_date;
+	public Date getWriteDate() {
+		return writeDate;
 	}
 
-	public void setReg_date(Date reg_date) {
-		this.reg_date = reg_date;
+	public void setWriteDate(Date writeDate) {
+		this.writeDate = writeDate;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public boolean getIsDeleted() {
+		return isAnswered;
+	}
+
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+
+	public boolean isAnswered() {
+		return isAnswered;
+	}
+
+	public void setAnswered(boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
+
+	public boolean getIsAnswered() {
+		return isAnswered;
+	}
+
+	public void setIsAnswered(boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 }

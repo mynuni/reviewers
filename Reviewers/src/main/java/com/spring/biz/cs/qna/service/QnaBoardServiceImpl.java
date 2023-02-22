@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.biz.cs.dao.QnaBoardDAO;
 import com.spring.biz.cs.vo.QnaBoardVO;
+import com.spring.biz.cs.vo.QnaFileVO;
 import com.spring.biz.util.SearchCriteria;
 
 @Service
@@ -38,10 +40,19 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 	public List<QnaBoardVO> getMyBoardList(SearchCriteria criteria, String userId) {
 		return qnaBoardDAO.getMyBoardList(criteria, userId);
 	}
-	
+
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void writeQnaBoard(QnaBoardVO qnaBoardVO) {
 		qnaBoardDAO.writeQnaBoard(qnaBoardVO);
+		if (qnaBoardVO.getFilePaths() != null && qnaBoardVO.getFilePaths().size() > 0) {
+			for (String filePath : qnaBoardVO.getFilePaths()) {
+				QnaFileVO qnaFileVO = new QnaFileVO();
+				qnaFileVO.setBoardId(qnaBoardVO.getBoardId());
+				qnaFileVO.setFilePath(filePath);
+				qnaBoardDAO.writeQnaFile(qnaFileVO);
+			}
+		}
 	}
 
 }

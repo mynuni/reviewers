@@ -38,7 +38,8 @@
 					AND subject LIKE '%' || #{keyword} || '%'
 				</when>
 				<otherwise>
-					AND (title LIKE '%' || #{keyword} || '%' OR content LIKE '%' ||
+					AND (title LIKE '%' || #{keyword} || '%' OR content LIKE
+					'%' ||
 					#{keyword} || '%')
 				</otherwise>
 			</choose>
@@ -73,17 +74,30 @@
 					AND subject LIKE '%' || #{keyword} || '%'
 				</when>
 				<otherwise>
-					AND (title LIKE '%' || #{keyword} || '%' OR content LIKE '%' ||
+					AND (title LIKE '%' || #{keyword} || '%' OR content LIKE
+					'%' ||
 					#{keyword} || '%')
 				</otherwise>
 			</choose>
 		</if>
 	</select>
-
-	<insert id="writeQnaBoard" parameterType="QnaBoardVO">
-		INSERT INTO QNA_BOARD (board_id, subject, title, content, writer, writer_id)
-		VALUES (qna_board_seq.NEXTVAL, #{subject}, #{title}, #{content}, #{writer}, #{writerId})
+	
+	<insert id="writeQnaBoard" parameterType="com.spring.biz.cs.vo.QnaBoardVO">
+    <selectKey keyProperty="boardId" resultType="int" order="BEFORE">
+        SELECT qna_board_seq.NEXTVAL FROM dual
+    </selectKey>
+	    INSERT INTO qna_board(board_id, subject, title, content, writer, writer_id)
+	    VALUES (#{boardId}, #{subject}, #{title}, #{content}, #{writer}, #{writerId})
 	</insert>
+
+	<insert id="writeQnaFile" parameterType="QnaFileVO">
+		INSERT INTO qna_board_file(file_id, board_id, file_path)
+		VALUES (qna_board_file_seq.NEXTVAL, #{boardId}, #{filePath})
+	</insert>
+
+	<!-- <insert id="1111writeQnaBoard" parameterType="QnaBoardVO"> INSERT INTO 
+		QNA_BOARD (board_id, subject, title, content, writer, writer_id) VALUES (qna_board_seq.NEXTVAL, 
+		#{subject}, #{title}, #{content}, #{writer}, #{writerId}) </insert> -->
 
 
 </mapper>

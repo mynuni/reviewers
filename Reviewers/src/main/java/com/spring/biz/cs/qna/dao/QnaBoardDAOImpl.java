@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.spring.biz.cs.vo.QnaBoardVO;
+import com.spring.biz.cs.vo.QnaFileVO;
 import com.spring.biz.util.SearchCriteria;
 
 @Repository
@@ -62,5 +63,10 @@ public class QnaBoardDAOImpl implements QnaBoardDAO {
 	public void writeQnaBoard(QnaBoardVO qnaBoardVO) {
 		sqlSession.insert(NAMESPACE + ".writeQnaBoard", qnaBoardVO);
 	}
+	
+    @Override
+    public void writeQnaFile(QnaFileVO qnaFileVO) {
+        sqlSession.insert(NAMESPACE + ".writeQnaFile", qnaFileVO);
+    }
 
 }

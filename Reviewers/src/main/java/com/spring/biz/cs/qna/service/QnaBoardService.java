@@ -19,5 +19,5 @@ public interface QnaBoardService {
 
 	// 글 작성
 	public void writeQnaBoard(QnaBoardVO qnaBoardVO);
- 
+	
 }

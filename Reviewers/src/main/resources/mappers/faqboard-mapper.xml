@@ -2,41 +2,63 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-<mapper namespace="com.spring.biz.cs.FaqBoardMapper">
 
-	<!-- 게시글 목록 및 조회 -->
-    <select id="getFaqBoardList" parameterType="hashmap" resultType="FaqBoardVO">
-        SELECT subject, title, content, writer, view_cnt
-        FROM faq_board
-        WHERE is_deleted = 'N'
-        ORDER BY title DESC
-    </select>
+<mapper namespace="FaqBoardMapper">
 
-	<!-- 게시글 등록 -->
-	<insert id="insertFaqBoard" parameterType="FaqBoardVO">
-	    INSERT INTO faq_board (board_id, subject, title, content, writer, write_date, file_path)
-	    VALUES (#{board_id}, #{subject}, #{title}, #{content}, #{writer}, #{writeDate},
-			    <if test="filePath == null">''</if>
-			    <if test="filePath != null"> #{filePath} </if>)
+	<!-- countFaqBoardList -->
+	<select id="countFaqBoardList" parameterType="SearchCriteria" resultType="int">
+	  SELECT COUNT(*) FROM FAQ_BOARD
+	  WHERE is_deleted = 0
+	  <if test="searchType != null and searchType != ''">
+	    <bind name="keyword" value="'%' + keyword + '%'"/>
+	    AND ${searchType} LIKE #{keyword}
+	  </if>
+	</select>
+
+	<!-- getFaqBoardList -->
+	<select id="getFaqBoardList" parameterType="SearchCriteria" resultType="FaqBoardVO">
+	  SELECT * FROM (
+	    SELECT ROWNUM AS RNUM, N.*
+	    FROM (
+	      SELECT * FROM FAQ_BOARD
+	      WHERE is_deleted = 0
+	      <if test="searchType != null and searchType != ''">
+	        <bind name="keyword" value="'%' + keyword + '%'"/>
+	        AND ${searchType} LIKE #{keyword}
+	      </if>
+	      ORDER BY board_id DESC
+	    ) N
+	    WHERE ROWNUM &lt;= #{endRow}
+	  ) WHERE RNUM &gt;= #{startRow}
+	</select>
+	
+	<select id="getFaqBoardById" parameterType="int" resultType="FaqBoardVO">
+	  SELECT *
+	  FROM faq_board
+	  WHERE board_id = #{boardId}
+	</select>
+	
+	<insert id="writeFaqBoard" parameterType="FaqBoardVO">
+	  INSERT INTO faq_board (board_id, subject, title, content, writer, writer_id)
+	  VALUES (faq_board_seq.NEXTVAL, #{subject}, #{title}, #{content}, #{writer}, #{writerId})
 	</insert>
+	
+	<update id="updateFaqBoard" parameterType="FaqBoardVO">
+	  UPDATE faq_board
+	  SET
+	    subject = #{subject},
+	    title = #{title},
+	    content = #{content}
+	  WHERE board_id = #{boardId}
+	</update>
+	
+	<update id="deleteFaqBoard" parameterType="int">
+	  UPDATE faq_board
+	  SET is_deleted = 1
+	  WHERE board_id = #{boardId}
+	</update>
 
-	<!-- 게시글 수정 -->
-    <update id="updateFaqBoard" parameterType="FaqBoardVO">
-        UPDATE faq_board
-        SET subject = #{subject},
-        	title = #{title},
-            content = #{content},
-            <if test="filePath == null or filePath == ''">file_path = ''</if>
-        	<if test="filePath != null and filePath != ''">file_path = #{filePath}</if>
-        WHERE board_id = #{board_id}
-    </update>
 
-	<!-- 게시글 삭제 -->
-    <delete id="deleteFaqBoard" parameterType="int">
-        UPDATE faq_board
-        SET is_deleted = 'Y'
-        WHERE board_id = #{board_id}
-    </delete>
+	
 
 </mapper>

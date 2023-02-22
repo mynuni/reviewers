@@ -19,15 +19,45 @@ public class FaqBoardDAOImpl implements FaqBoardDAO {
 		this.sqlSession = sqlSession;
 	}
 
+	// 글 개수 조회
 	@Override
 	public int countFaqBoardList(SearchCriteria criteria) {
 		return sqlSession.selectOne(NAMESPACE + ".countFaqBoardList", criteria);
 
 	}
 
+	// 글 목록 조회
 	@Override
 	public List<FaqBoardVO> getFaqBoardList(SearchCriteria criteria) {
 		return sqlSession.selectList(NAMESPACE + ".getFaqBoardList", criteria);
+
+	}
+
+	// 글 조회
+	@Override
+	public FaqBoardVO getFaqBoardById(int boardId) {
+		return sqlSession.selectOne(NAMESPACE + ".getFaqBoardById", boardId);
+
+	}
+
+	// 글 작성
+	@Override
+	public void writeFaqBoard(FaqBoardVO faqBoardVO) {
+		sqlSession.insert(NAMESPACE + ".writeFaqBoard", faqBoardVO);
+
+	}
+
+	// 글 수정
+	@Override
+	public void updateFaqBoard(FaqBoardVO faqBoardVO) {
+		sqlSession.update(NAMESPACE + ".updateFaqBoard", faqBoardVO);
+
+	}
+
+	// 글 삭제
+	@Override
+	public void deleteFaqBoardById(int boardId) {
+		sqlSession.delete(NAMESPACE + ".deleteFaqBoard", boardId);
 
 	}
 

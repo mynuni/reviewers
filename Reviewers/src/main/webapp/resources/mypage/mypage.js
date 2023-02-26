@@ -3,12 +3,12 @@ $(function() {
 
 	// URI별 메뉴 효과
 	var menuLinks = {
-		'/member/mypage' : '#mypage',
-		'/member/edit' : '#edit',
-		'/member/myfavorate' : '#myfavorate',
-		'/member/mypost' : '#mypost',
-		'/member/mycomment' : '#mycomment',
-		'/member/myqna' : '#myqna'
+		'/mypage' : '#mypage',
+		'/mypage/edit' : '#edit',
+		'/mypage/myfavorate' : '#myfavorate',
+		'/mypage/mypost' : '#mypost',
+		'/mypage/mycomment' : '#mycomment',
+		'/mypage/myqna' : '#myqna'
 	};
 	var link = menuLinks[window.location.pathname];
 	if (link) {
@@ -53,6 +53,20 @@ $(function() {
 		$('.pwCheck').text("");
 		$(".changePw-form").hide();
 		$('.changePw-btn').show();
+	});
+	
+	$("#changeEmail-btn").click(function() {
+		$(this).hide();
+		$(".changeEmail-form").css('display', 'block');
+		$("#changeEmail-cancel-btn").show();
+	});
+	
+	$('#changeEmail-cancel-btn').click(function() {
+		var currentEmail = $('#currentEmail').val();
+		$(this).hide();
+		$('.email').val(currentEmail);
+		$(".changeEmail-form").hide();
+		$('.changeEmail-btn').show();
 	});
 	
 //	// 회원정보수정 폼 검증
@@ -149,18 +163,18 @@ $(function() {
 	});
 
 	function checkNameDuplicate() {
-		  var userName = $("#userName").val();
-		  var currentName = $("#currentName").val();
-		  if (userName == currentName) {
+		  var nickname = $("#userName").val();
+		  var currentNickname = $("#currentName").val();
+		  if (nickname == currentNickname) {
 		    $("#nameDuplicateCheck").text("현재 사용중인 닉네임과 동일합니다.").css("color", "red");
 		    $("#userName").css("outline", "1px solid red");
 		    return;
 		  }
 		  $.ajax({
-		    url: "/member/checkNameDuplicate",
+		    url: "/checkNameDuplicate",
 		    type: "POST",
 		    data: {
-		      userName: userName
+		    	nickname: nickname
 		    },
 		    success: function(result) {
 		      if (result) {

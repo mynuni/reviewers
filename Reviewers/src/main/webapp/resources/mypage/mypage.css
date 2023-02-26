@@ -25,7 +25,7 @@
 }
 
 .mypage-edit-container {
-	height: 900px;
+	margin-bottom: 80px;
 }
 
 .mypage-content input[readonly] {
@@ -49,6 +49,7 @@
 
 .basic-info-title i {
 	margin-left: 5px;
+	font-size: 18px;
 }
 
 .edit-input-title {
@@ -94,7 +95,7 @@
 	margin-bottom: 10px;
 }
 
-.changePw-form {
+.changePw-form, .changeEmail-form {
 	display: none;
 }
 
@@ -200,7 +201,8 @@
 }
 
 .fileUpload-btn {
-	display: none; border : none;
+	display: none;
+	border: none;
 	background-color: rgba(45, 152, 240, 1);
 	color: white;
 	border-radius: 5px;
@@ -276,17 +278,27 @@
 	color: coral;
 }
 
-#changeUserName-cancel-btn, #changePw-cancel-btn {
+.newEmail-wrap__newEmail{
+	border-bottom: none !important;
+}
+
+#changeUserName-cancel-btn, #changePw-cancel-btn, #changeTel-cancel-btn,
+	#changeRealName-cancel-btn, #changeEmail-cancel-btn {
 	display: none;
 }
 
 .userId-input-container, .userName-input-container,
-	.userPw-input-container, .changePw-form .newPw-wrap {
+	.userPw-input-container, .changePw-form .newPw-wrap,
+	.email-input-container, .newEmail-wrap {
 	display: flex;
 	overflow: hidden;
 	border-bottom: 1px solid lightgrey;
 	padding: 12px;
 	align-items: center;
+}
+
+.sendAuthNum-btn, .checkAuthNum-btn {
+	margin-left: 12px;
 }
 
 .userPw-input-container i {
@@ -295,7 +307,7 @@
 	color: rgba(0, 0, 0, 0.65);
 }
 
-.changePw-form .newPw-wrap {
+.changePw-form .newPw-wrap, .changeEmail-form, .newPw-wrap {
 	border: none;
 }
 
@@ -427,11 +439,11 @@
 	color: rgb(25, 206, 96);
 }
 
-.qna-table .user-keyword{
+.qna-table .user-keyword {
 	color: coral;
 }
 
-.qna-table .result-empty{
+.qna-table .result-empty {
 	padding: 40px 0px;
 }
 

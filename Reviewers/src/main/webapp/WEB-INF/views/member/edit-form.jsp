@@ -16,23 +16,30 @@
 	<jsp:include page="/WEB-INF/views/common/sidebar.jsp" />
 	<main class="main main-container" id="main">
 	<div class="mypage-container">
-		<jsp:include page="/WEB-INF/views/common/mypage-menu.jsp" />
+		<jsp:include page="/WEB-INF/views/mypage/mypageMenu.jsp" />
 		<div class="mypage-content">
 			<div class="mypage-edit-title">회원정보수정</div>
 			<div class="mypage-edit-container">
-				<form action="/member/edit" method="post">
+				<form action="/mypage/edit" method="post">
 					<div class="basic-info">
-						<div class="basic-info-title"> 기본 정보<i class="fa-solid fa-user-gear"></i>
+						<div class="basic-info-title"> 기본 정보<i class="fa-solid fa-circle-info"></i>
 						</div>
 						<div class="userId-input-container">
 							<div class="edit-input-title">아이디</div>
-							<div>${member.userId}</div>
+							<div>${User.userId}</div>
 							<button type="button" class="edit-input-btn edit-input-btn__cancel">변경불가</button>
 						</div>
 						<div class="userName-input-container">
+							<div class="edit-input-title">이름(실명)</div>
+							<input type="text" name="name" id="realName" value="${User.name}" readonly>
+							<input type="hidden" id="currentRealName" value="${User.name}">
+							<button id="changeRealName-btn" class="edit-input-btn" type="button">이름 변경</button>
+							<button id="changeRealName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						</div>
+						<div class="userName-input-container">
 							<div class="edit-input-title">닉네임</div>
-							<input type="text" name="userName" id="userName" value="${member.userName}" readonly>
-							<input type="hidden" id="currentName" value="${member.userName}">
+							<input type="text" name="nickname" id="userName" value="${User.nickname}" readonly>
+							<input type="hidden" id="currentName" value="${User.nickname}">
 							<div class="nameDuplicateCheck" id="nameDuplicateCheck"></div>
 							<button id="changeUserName-btn" class="edit-input-btn" type="button">닉네임 변경</button>
 							<button id="changeUserName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
@@ -46,7 +53,7 @@
 						<div class="changePw-form">
 							<div class="newPw-wrap">
 								<div class="edit-input-title edit-input-title__newPw">새 비밀번호</div>
-								<input name="userPw" type="password" class="userPw"><br>
+								<input name="password" type="password" class="userPw"><br>
 							</div>
 							<div class="newPw-wrap newPw-wrap__check">
 								<div class="edit-input-title edit-input-title__newPw">비밀번호 확인</div>
@@ -59,19 +66,33 @@
 						<div class="basic-info-title">추가 정보<i class="fa-regular fa-square-plus"></i></div>
 						<div class="userName-input-container">
 							<div class="edit-input-title">전화번호</div>
-							<input type="text" name="userTel" id="userTel" value="${member.userTel}" readonly>
-							<button id="changeUserName-btn" class="edit-input-btn" type="button">전화번호 변경</button>
-							<button id="changeUserName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+							<input type="text" name="tel" id="tel" value="${User.tel}" readonly>
+							<input type="hidden" id="currentTel" value="${User.tel}">
+							<button id="changeTel-btn" class="edit-input-btn" type="button">전화번호 변경</button>
+							<button id="changeTel-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
 						</div>
-						<div class="userName-input-container">
-							<div class="edit-input-title">이메일 주소</div>
-							<input type="text" name="userEmail" id="userEmail" value="${member.userEmail}" readonly>
-							<button id="changeUserName-btn" class="edit-input-btn" type="button">이메일 변경</button>
-							<button id="changeUserName-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						<div class="email-input-container">
+							<div class="edit-input-title">이메일</div>
+							<input type="text" name="email" id="email" value="${User.email}" readonly>
+							<input type="hidden" id="currentEmail" value="${User.email}">
+							<button id="changeEmail-btn" class="changeEmail-btn edit-input-btn" type="button">이메일 변경</button>
+							<button id="changeEmail-cancel-btn" class="edit-input-btn edit-input-btn__cancel" type="button">변경취소</button>
+						</div>
+						<div class="changeEmail-form">
+							<div class="newEmail-wrap newEmail-wrap__newEmail">
+								<div class="edit-input-title edit-input-title__newPw">새 이메일 주소</div>
+								<input name="text" type="password" class="userPw"><br>
+								<button id="changeEmail-btn" class="changeEmail-btn sendAuthNum-btn edit-input-btn" type="button">인증번호 전송</button>
+							</div>
+							<div class="newEmail-wrap">
+								<div class="edit-input-title edit-input-title__newPw">인증번호</div>
+								<input name="confirmPw" type="text" class="confirmPw"><br>
+								<button id="changeEmail-btn" class="changeEmail-btn checkAuthNum-btn edit-input-btn" type="button">인증번호 확인</button>
+							</div>
 						</div>
 						<div class="userId-input-container">
-							<div class="edit-input-title">생년월일</div>
-							<div><fmt:formatDate value="${member.userBirth}" pattern="yyyy년 M월 d일" type="date" /></div>
+							<div class="edit-input-title">나이</div>
+							<input type="text" name="birth" id="userTel" value="${User.birth}" readonly>
 							<button type="button" class="edit-input-btn edit-input-btn__cancel">변경불가</button>
 						</div>
 					</div>
@@ -79,7 +100,7 @@
 						<button class="edit-input-btn edit-input-btn__cancel" type="submit">취소</button>
 						<button id="editSubmitBtn" class="edit-input-btn edit-input-btn__save" type="submit">변경사항 저장</button>
 					</div>
-					<input type="hidden" name="userId" id="userId" value="${member.userId}">
+					<input type="hidden" name="userId" id="userId" value="${User.userId}">
 				</form>
 			</div>
 		</div>
@@ -87,51 +108,97 @@
 	</main>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	<script>
-		$(function(){
-			// 정보 변경 취소 시 세션의 저장된 값으로 세팅
-			$('#changeUserName-btn').click(
-					function() {
-						$('#userName').prop('readonly', false).css(
-								'background-color', '#fff');
-						$(this).hide();
-						$('#changeUserName-cancel-btn').show();
-					});
+	$(function(){
+		// 정보 변경 취소 시 세션의 저장된 값으로 세팅
+		$('#changeUserName-btn').click(
+				function() {
+					$('#userName').prop('readonly', false).css(
+							'background-color', '#fff');
+					$(this).hide();
+					$('#changeUserName-cancel-btn').show();
+				});
 
-			$('#changeUserName-cancel-btn').click(
-					function() {
-						$('#userName').val('${member.userName}').attr('readonly', 'readonly');
-						$(this).hide();
-						$('#changeUserName-btn').show();
-						$('#nameDuplicateCheck').text('');
-						$("#userName").css("outline", "1px solid lightgrey");
-					});
-			
+		$('#changeUserName-cancel-btn').click(
+				function() {
+					$('#userName').val('${User.nickname}').attr('readonly', 'readonly');
+					$(this).hide();
+					$('#changeUserName-btn').show();
+					$('#nameDuplicateCheck').text('');
+					$("#userName").css("outline", "1px solid lightgrey");
+				});
+		
+		$('#changeTel-btn').click(
+				function() {
+					$('#tel').prop('readonly', false).css(
+							'background-color', '#fff');
+					$(this).hide();
+					$('#changeTel-cancel-btn').show();
+				});
+
+		$('#changeTel-cancel-btn').click(
+				function() {
+					$('#tel').val('${User.tel}').attr('readonly', 'readonly');
+					$(this).hide();
+					$('#changeTel-btn').show();
+					$("#tel").css("outline", "1px solid lightgrey");
+				});
+		
+		$('#changeRealName-btn').click(
+				function() {
+					$('#realName').prop('readonly', false).css(
+							'background-color', '#fff');
+					$(this).hide();
+					$('#changeRealName-cancel-btn').show();
+				});
+
+		$('#changeRealName-cancel-btn').click(
+				function() {
+					$('#realName').val('${User.name}').attr('readonly', 'readonly');
+					$(this).hide();
+					$('#changeRealName-btn').show();
+					$("#realName").css("outline", "1px solid lightgrey");
+				});
+		
+		$('#changeEmail-btn').click(
+				function() {
+					$(this).hide();
+					$('#changeEmail-cancel-btn').show();
+				});
+
+		$('#changeEmail-cancel-btn').click(
+				function() {
+					$('#email').val('${User.email}').attr('readonly', 'readonly');
+					$(this).hide();
+					$('#changeEmail-btn').show();
+					$("#email").css("outline", "1px solid lightgrey");
+				});
+		
+	});
+	$(function() {
+		// 뒤로가기 버튼
+		$(".btn__cancel").click(function() {
+			history.back();
 		});
-		$(function() {
-			// 뒤로가기 버튼
-			$(".btn__cancel").click(function() {
-				history.back();
-			});
 
-			// 회원가입 버튼
-			$(".btn__sign-up").click(function() {
-				$(location).attr("href", "/member/sign-up");
-			});
-
-			// 하단 팝업
-			$(".pop-up__bottom").show(function() {
-				$(this).delay(700).fadeOut(2000);
-			});
-
-			$(".imgModBtn").on("click", function() {
-				var file = $("#file").val();
-				if (file == "") {
-					alert("파일을 선택해주세요.");
-					return;
-				}
-				$("#userImageForm").submit();
-			});
+		// 회원가입 버튼
+		$(".btn__sign-up").click(function() {
+			$(location).attr("href", "/member/sign-up");
 		});
-	</script>
+
+		// 하단 팝업
+		$(".pop-up__bottom").show(function() {
+			$(this).delay(700).fadeOut(2000);
+		});
+
+		$(".imgModBtn").on("click", function() {
+			var file = $("#file").val();
+			if (file == "") {
+				alert("파일을 선택해주세요.");
+				return;
+			}
+			$("#userImageForm").submit();
+		});
+	});
+</script>
 </body>
 </html>
